@@ -23,7 +23,7 @@ public class HomeStay {
     private Long amountBathRoom;
     private Long amountBedRoom;
     private String address;
-    private String description;
+
 
     @OneToOne
     @JoinColumn(name = "price")
@@ -35,14 +35,14 @@ public class HomeStay {
     public HomeStay() {
     }
 
-    public HomeStay(String nameHouse, CategoryHouse categoryHouse, CategoryRoom categoryRoom, Long amountBathRoom, Long amountBedRoom, String address, String description, Price price, String imageUrls) {
+    public HomeStay(String nameHouse, CategoryHouse categoryHouse, CategoryRoom categoryRoom, Long amountBathRoom, Long amountBedRoom, String address, Price price, String imageUrls) {
         this.nameHouse = nameHouse;
         this.categoryHouse = categoryHouse;
         this.categoryRoom = categoryRoom;
         this.amountBathRoom = amountBathRoom;
         this.amountBedRoom = amountBedRoom;
         this.address = address;
-        this.description = description;
+
         this.price = price;
         this.imageUrls = imageUrls;
     }
@@ -103,13 +103,7 @@ public class HomeStay {
         this.address = address;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Price getPrice() {
         return price;
