@@ -29,7 +29,7 @@ public class HomeStay {
     @JoinColumn(name = "price")
     private Price price;
 
-    @Column(columnDefinition = "TEXT")
+
     private String imageUrls;
 
     public HomeStay() {
