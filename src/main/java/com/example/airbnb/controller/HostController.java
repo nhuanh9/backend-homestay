@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -58,6 +57,27 @@ public class HostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
 
 }
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> edit(@PathVariable("id") Long id,@RequestBody HomeStay homeStay){
+        Optional<HomeStay>homeStay1= homeStayService.findById(id);
+
+        if(homeStay1.isPresent()){
+            homeStay1.get().setNameHouse(homeStay.getNameHouse());
+            homeStay1.get().setCategoryHouse(homeStay.getCategoryHouse());
+            homeStay1.get().setCategoryRoom(homeStay.getCategoryRoom());
+            homeStay1.get().setAddress(homeStay.getAddress());
+            homeStay1.get().setAmountBathRoom(homeStay.getAmountBathRoom());
+            homeStay1.get().setAmountBedRoom(homeStay.getAmountBedRoom());
+            homeStay1.get().setDescription(homeStay.getDescription());
+            homeStay1.get().setImageUrls(homeStay.getImageUrls());
+            homeStay1.get().setPrice(homeStay.getPrice());
+
+            homeStayService.save(homeStay1.get());
+            return new ResponseEntity("thanh cong",HttpStatus.OK);
+        }else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         Optional<HomeStay> homeStay1 = homeStayService.findById(id);
