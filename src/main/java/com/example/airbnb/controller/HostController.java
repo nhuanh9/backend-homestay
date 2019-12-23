@@ -34,11 +34,8 @@ public class HostController {
         return new ResponseEntity<>(categoryRooms, HttpStatus.OK);
     }
     @GetMapping("/a")
-    public ResponseEntity<List<HomeStay>> listHomeStay() {
-        List<HomeStay> homeStays = homeStayService.findAll();
-        if (homeStays.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+    public ResponseEntity<Iterable<HomeStay>> showAllHouse() {
+        Iterable<HomeStay> homeStays = homeStayService.findAll();
         return new ResponseEntity<>(homeStays, HttpStatus.OK);
     }
 
