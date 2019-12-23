@@ -32,7 +32,12 @@ homeStayRepository.save(homeStay);
     }
 
     @Override
-    public void delete(HomeStay homeStay) {
-homeStayRepository.delete(homeStay);
+    public void delete(Long id) {
+        Optional<HomeStay> homeStay = homeStayRepository.findById(id);
+        if (homeStay.isPresent()) {
+            homeStayRepository.delete(homeStay.get());
+        }
     }
+
+
 }

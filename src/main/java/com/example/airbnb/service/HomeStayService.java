@@ -13,6 +13,6 @@ public interface HomeStayService {
 
     void save(HomeStay homeStay);
 
-    void delete(HomeStay homeStay);
+    void delete(Long id);
 
 }

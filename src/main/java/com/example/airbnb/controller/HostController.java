@@ -55,5 +55,14 @@ public class HostController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 
-
-}}
+}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+        Optional<HomeStay> homeStay1 = homeStayService.findById(id);
+        if (homeStay1 == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        homeStayService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+}
