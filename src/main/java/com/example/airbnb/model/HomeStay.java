@@ -28,8 +28,6 @@ public class HomeStay {
     @OneToOne
     @JoinColumn(name = "price")
     private Price price;
-
-
     private String imageUrls;
 
     public HomeStay() {
@@ -42,7 +40,6 @@ public class HomeStay {
         this.amountBathRoom = amountBathRoom;
         this.amountBedRoom = amountBedRoom;
         this.address = address;
-
         this.price = price;
         this.imageUrls = imageUrls;
     }
@@ -102,8 +99,6 @@ public class HomeStay {
     public void setAddress(String address) {
         this.address = address;
     }
-
-
 
     public Price getPrice() {
         return price;
