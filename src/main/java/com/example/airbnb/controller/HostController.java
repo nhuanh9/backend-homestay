@@ -28,7 +28,11 @@ public class HostController {
     private CategoryRoomService categoryRoomService;
     @Autowired
     private PriceService priceService;
-
+    @GetMapping("/abc")
+    public ResponseEntity<List<CategoryRoom>>listCategoryRoom(){
+        List<CategoryRoom>categoryRooms=categoryRoomService.findAll();
+        return new ResponseEntity<>(categoryRooms, HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity<List<HomeStay>> listHomeStay() {
         List<HomeStay> homeStays = homeStayService.findAll();
