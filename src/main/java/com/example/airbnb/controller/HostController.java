@@ -36,7 +36,7 @@ public class HostController {
     }
 
     @PostMapping("/a")
-    public ResponseEntity<HomeStay> createHomeStay(@RequestBody HomeStay homeStay) {
+    public ResponseEntity<String> createHouse(@RequestBody HomeStay homeStay) {
        CategoryHouse categoryHouse=homeStay.getCategoryHouse();
        categoryHouseService.save(categoryHouse);
 
@@ -46,7 +46,7 @@ public class HostController {
         Price price = homeStay.getPrice();
         priceService.save(price);
         homeStayService.save(homeStay);
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>( "thanh cong",HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
