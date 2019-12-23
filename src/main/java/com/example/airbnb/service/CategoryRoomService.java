@@ -11,5 +11,5 @@ public interface CategoryRoomService {
     Optional<CategoryRoom> findById(Long id);
 
     void save(CategoryRoom categoryRoom);
-    Optional<CategoryRoom> findByNameRoom(String name);
+    CategoryRoom findByNameRoom(String name);
 }

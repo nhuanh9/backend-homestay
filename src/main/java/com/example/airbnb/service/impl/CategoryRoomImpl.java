@@ -31,8 +31,9 @@ public class CategoryRoomImpl implements CategoryRoomService {
     }
 
     @Override
-    public Optional<CategoryRoom> findByNameRoom(String name) {
+    public CategoryRoom findByNameRoom(String name) {
         return categoryRoomRepository.findByName(name);
     }
+
 
 }

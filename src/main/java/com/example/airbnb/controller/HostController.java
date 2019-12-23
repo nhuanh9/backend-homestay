@@ -39,11 +39,13 @@ public class HostController {
     public ResponseEntity<HomeStay>createHouse(@RequestBody HomeStay homeStay){
         if (homeStay.getCategoryRoom()!=null){
         String name=homeStay.getCategoryRoom().getName();
-        categoryRoomService.findByNameRoom(name);
+        CategoryRoom categoryRoom = categoryRoomService.findByNameRoom(name);
+        homeStay.setCategoryRoom(categoryRoom);
         }
         if (homeStay.getCategoryHouse() != null){
             String nameHouse=homeStay.getCategoryHouse().getName();
-            categoryHouseService.findByName(nameHouse);
+            CategoryHouse categoryHouse=categoryHouseService.findByName(nameHouse);
+            homeStay.setCategoryHouse(categoryHouse);
         }
         if (homeStay.getPrice()!=null){
             Price price=homeStay.getPrice();
@@ -65,4 +67,5 @@ public class HostController {
         homeStayService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

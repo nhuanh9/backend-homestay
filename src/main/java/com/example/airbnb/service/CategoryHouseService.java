@@ -12,5 +12,5 @@ public interface CategoryHouseService {
 
     void save(CategoryHouse categoryHome);
 
-    Optional<CategoryHouse> findByName(String name);
+    CategoryHouse findByName(String name);
 }

@@ -31,8 +31,9 @@ public class CategoryHouseImpl implements CategoryHouseService {
     }
 
     @Override
-    public Optional<CategoryHouse> findByName(String name) {
+    public CategoryHouse findByName(String name) {
         return categoryHomeRepository.findByName(name);
     }
+
 
 }

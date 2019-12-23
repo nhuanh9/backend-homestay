@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface CategoryHomeRepository extends JpaRepository<CategoryHouse,Long> {
-    Optional<CategoryHouse> findByName(String name);
+    CategoryHouse findByName(String name);
 }

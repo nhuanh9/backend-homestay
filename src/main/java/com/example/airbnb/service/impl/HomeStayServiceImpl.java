@@ -28,7 +28,7 @@ public class HomeStayServiceImpl implements HomeStayService {
 
     @Override
     public void save(HomeStay homeStay) {
-homeStayRepository.save(homeStay);
+    homeStayRepository.save(homeStay);
     }
 
     @Override
