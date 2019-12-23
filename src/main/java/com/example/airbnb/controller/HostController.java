@@ -28,19 +28,15 @@ public class HostController {
     private CategoryRoomService categoryRoomService;
     @Autowired
     private PriceService priceService;
-    @GetMapping("/abc")
-    public ResponseEntity<List<CategoryRoom>>listCategoryRoom(){
-        List<CategoryRoom>categoryRooms=categoryRoomService.findAll();
-        return new ResponseEntity<>(categoryRooms, HttpStatus.OK);
-    }
-    @GetMapping("/a")
+
+    @GetMapping()
     public ResponseEntity<Iterable<HomeStay>> showAllHouse() {
         Iterable<HomeStay> homeStays = homeStayService.findAll();
         return new ResponseEntity<>(homeStays, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<String> createHomeStay(@RequestBody HomeStay homeStay) {
+    @PostMapping("/a")
+    public ResponseEntity<HomeStay> createHomeStay(@RequestBody HomeStay homeStay) {
        CategoryHouse categoryHouse=homeStay.getCategoryHouse();
        categoryHouseService.save(categoryHouse);
 
