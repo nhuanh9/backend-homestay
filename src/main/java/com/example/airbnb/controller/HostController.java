@@ -33,7 +33,7 @@ public class HostController {
         List<CategoryRoom>categoryRooms=categoryRoomService.findAll();
         return new ResponseEntity<>(categoryRooms, HttpStatus.OK);
     }
-    @GetMapping
+    @GetMapping("/a")
     public ResponseEntity<List<HomeStay>> listHomeStay() {
         List<HomeStay> homeStays = homeStayService.findAll();
         if (homeStays.isEmpty()) {
