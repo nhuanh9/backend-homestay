@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -29,47 +30,30 @@ public class HostController {
     @Autowired
     private PriceService priceService;
 
-    @GetMapping()
-    public ResponseEntity<Iterable<HomeStay>> showAllHouse() {
-        Iterable<HomeStay> homeStays = homeStayService.findAll();
+    @GetMapping
+    public ResponseEntity<Iterable<HomeStay>>listHouse(){
+        Iterable<HomeStay>homeStays=homeStayService.findAll();
         return new ResponseEntity<>(homeStays, HttpStatus.OK);
     }
-
     @PostMapping
-    public ResponseEntity<String> createHouse(@RequestBody HomeStay homeStay) {
-
-
-        if (homeStay.getCategoryHouse() != null) {
-            CategoryHouse categoryHouse=homeStay.getCategoryHouse();
-            categoryHouseService.save(categoryHouse);
+    public ResponseEntity<HomeStay>createHouse(@RequestBody HomeStay homeStay){
+        if (homeStay.getCategoryRoom()!=null){
+        String name=homeStay.getCategoryRoom().getName();
+        categoryRoomService.findByNameRoom(name);
         }
-        if (homeStay.getCategoryRoom() != null) {
-            CategoryRoom categoryRoom=homeStay.getCategoryRoom();
-            categoryRoomService.save(categoryRoom);
+        if (homeStay.getCategoryHouse() != null){
+            String nameHouse=homeStay.getCategoryHouse().getName();
+            categoryHouseService.findByName(nameHouse);
         }
-
-        Price price = homeStay.getPrice();
-        priceService.save(price);
+        if (homeStay.getPrice()!=null){
+            Price price=homeStay.getPrice();
+            priceService.save(price);
+        }
         homeStayService.save(homeStay);
-        return new ResponseEntity<>( "thanh cong",HttpStatus.OK);
-    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<HomeStay> editHomeStay(@RequestBody HomeStay homeStay) {
-        Price price = homeStay.getPrice();
-        priceService.save(price);
-        homeStayService.save(homeStay);
-        return new ResponseEntity(HttpStatus.OK);
-    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<HomeStay> detail(@PathVariable Long id) {
-        Optional<HomeStay> house = homeStayService.findById(id);
-        if (house.isPresent()) {
-            return new ResponseEntity<HomeStay>(house.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<HomeStay>(HttpStatus.NOT_FOUND);
-        }
-    }
 
-}
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
+
+}}

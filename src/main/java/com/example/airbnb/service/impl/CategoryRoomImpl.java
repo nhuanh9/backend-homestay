@@ -1,5 +1,6 @@
 package com.example.airbnb.service.impl;
 
+
 import com.example.airbnb.model.CategoryRoom;
 import com.example.airbnb.repository.CategoryRoomRepository;
 import com.example.airbnb.service.CategoryRoomService;
@@ -15,7 +16,7 @@ public class CategoryRoomImpl implements CategoryRoomService {
     private CategoryRoomRepository categoryRoomRepository;
 
     @Override
-    public List<CategoryRoom> findAll() {
+    public Iterable<CategoryRoom> findAll() {
         return categoryRoomRepository.findAll();
     }
 
@@ -27,6 +28,11 @@ public class CategoryRoomImpl implements CategoryRoomService {
     @Override
     public void save(CategoryRoom categoryRoom) {
         categoryRoomRepository.save(categoryRoom);
+    }
+
+    @Override
+    public Optional<CategoryRoom> findByNameRoom(String name) {
+        return categoryRoomRepository.findByName(name);
     }
 
 }

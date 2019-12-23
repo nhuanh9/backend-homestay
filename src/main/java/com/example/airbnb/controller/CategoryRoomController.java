@@ -19,8 +19,8 @@ public class CategoryRoomController {
     private CategoryRoomService categoryRoomService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryRoom>>listCategoryRoom(){
-        List<CategoryRoom>categoryRooms=categoryRoomService.findAll();
+    public ResponseEntity<Iterable<CategoryRoom>>listCategoryRoom(){
+        Iterable<CategoryRoom>categoryRooms=categoryRoomService.findAll();
         return new ResponseEntity<>(categoryRooms, HttpStatus.OK);
     }
     @PostMapping

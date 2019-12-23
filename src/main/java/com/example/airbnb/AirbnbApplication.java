@@ -1,6 +1,5 @@
 package com.example.airbnb;
 
-import com.example.airbnb.model.CategoryHouse;
 import com.example.airbnb.service.CategoryHouseService;
 import com.example.airbnb.service.CategoryRoomService;
 import com.example.airbnb.service.impl.CategoryHouseImpl;

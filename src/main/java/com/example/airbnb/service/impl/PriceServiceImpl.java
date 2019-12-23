@@ -16,7 +16,7 @@ public class PriceServiceImpl implements PriceService {
     private PriceRepository priceRepository;
 
     @Override
-    public List<Price> findAll() {
+    public Iterable<Price> findAll() {
         return priceRepository.findAll();
     }
 

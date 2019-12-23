@@ -7,7 +7,6 @@ import javax.persistence.Id;
 
 
 @Entity
-
 public class CategoryHouse {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

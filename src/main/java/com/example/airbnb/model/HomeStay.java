@@ -11,24 +11,19 @@ public class HomeStay {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String nameHouse;
-
     @ManyToOne
     @JoinColumn(name = "category_home")
-
     private CategoryHouse categoryHouse;
     @ManyToOne
     @JoinColumn(name = "category_room")
-
     private CategoryRoom categoryRoom;
     private Long amountBathRoom;
     private Long amountBedRoom;
     private String address;
     private String description;
-
     @OneToOne
     @JoinColumn(name = "price")
     private Price price;
-
     @Column(columnDefinition = "TEXT")
     private String imageUrls;
 

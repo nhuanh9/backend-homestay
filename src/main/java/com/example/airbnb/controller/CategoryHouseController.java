@@ -19,8 +19,8 @@ public class CategoryHouseController {
     private CategoryHouseService categoryHouseService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryHouse>> listCategoryHome() {
-        List<CategoryHouse> categoryHomes = categoryHouseService.findAll();
+    public ResponseEntity<Iterable<CategoryHouse>> listCategoryHome() {
+        Iterable<CategoryHouse> categoryHomes = categoryHouseService.findAll();
         return new ResponseEntity<>(categoryHomes, HttpStatus.OK);
     }
 
