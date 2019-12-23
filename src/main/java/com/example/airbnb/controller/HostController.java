@@ -35,7 +35,7 @@ public class HostController {
         return new ResponseEntity<>(homeStays, HttpStatus.OK);
     }
 
-    @PostMapping("/a")
+    @PostMapping
     public ResponseEntity<String> createHouse(@RequestBody HomeStay homeStay) {
 
 
