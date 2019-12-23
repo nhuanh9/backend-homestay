@@ -87,5 +87,13 @@ public class HostController {
         homeStayService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<HomeStay> findById(@PathVariable Long id){
+        Optional<HomeStay> homeStay = homeStayService.findById(id);
+        if (homeStay == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(homeStay, HttpStatus.OK);
+    }
 
 }
