@@ -37,11 +37,16 @@ public class HostController {
 
     @PostMapping("/a")
     public ResponseEntity<String> createHouse(@RequestBody HomeStay homeStay) {
-       CategoryHouse categoryHouse=homeStay.getCategoryHouse();
-       categoryHouseService.save(categoryHouse);
 
-        CategoryRoom categoryRoom =homeStay.getCategoryRoom();
-        categoryRoomService.save(categoryRoom);
+
+        if (homeStay.getCategoryHouse() != null) {
+            CategoryHouse categoryHouse=homeStay.getCategoryHouse();
+            categoryHouseService.save(categoryHouse);
+        }
+        if (homeStay.getCategoryRoom() != null) {
+            CategoryRoom categoryRoom=homeStay.getCategoryRoom();
+            categoryRoomService.save(categoryRoom);
+        }
 
         Price price = homeStay.getPrice();
         priceService.save(price);

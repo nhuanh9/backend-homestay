@@ -13,4 +13,5 @@ public interface CategoryHouseService {
     Optional<CategoryHouse> findById(Long id);
 
     void save(CategoryHouse categoryHouse);
+
 }
