@@ -5,7 +5,6 @@ import com.example.airbnb.message.request.SiginUpForm;
 import com.example.airbnb.message.response.JwtResponse;
 import com.example.airbnb.message.response.ResponseMessage;
 import com.example.airbnb.model.Role;
-import com.example.airbnb.model.RoleName;
 import com.example.airbnb.model.User;
 import com.example.airbnb.repository.RoleRepository;
 import com.example.airbnb.repository.UserRepository;
@@ -82,19 +81,14 @@ public class UserController {
         strRoles.forEach(role -> {
             switch (role) {
                 case "admin":
-                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                    Role adminRole = roleRepository.findByName("ADMIN")
                             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
                     roles.add(adminRole);
 
                     break;
-                case "pm":
-                    Role pmRole = roleRepository.findByName(RoleName.ROLE_PM)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(pmRole);
 
-                    break;
                 default:
-                    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                    Role userRole = roleRepository.findByName("USER")
                             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
                     roles.add(userRole);
             }
