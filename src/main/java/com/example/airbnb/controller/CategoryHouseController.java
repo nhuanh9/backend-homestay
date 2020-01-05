@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@PreAuthorize("hasRole('ADMIN')")
+
 @RequestMapping("/category/house")
 public class CategoryHouseController {
     @Autowired
