@@ -79,6 +79,10 @@ public class UserPrinciple implements UserDetails {
         return password;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
