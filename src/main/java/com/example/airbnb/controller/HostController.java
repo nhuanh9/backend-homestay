@@ -2,15 +2,16 @@ package com.example.airbnb.controller;
 
 import com.example.airbnb.model.CategoryHouse;
 import com.example.airbnb.model.CategoryRoom;
-import com.example.airbnb.model.HomeStay;
+import com.example.airbnb.model.House;
 import com.example.airbnb.model.Price;
 import com.example.airbnb.service.CategoryHouseService;
 import com.example.airbnb.service.CategoryRoomService;
-import com.example.airbnb.service.HomeStayService;
+import com.example.airbnb.service.HouseService;
 import com.example.airbnb.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,7 +22,7 @@ import java.util.Optional;
 @RequestMapping("/host")
 public class HostController {
     @Autowired
-    private HomeStayService homeStayService;
+    private HouseService houseService;
     @Autowired
     private CategoryHouseService categoryHouseService;
     @Autowired
@@ -30,27 +31,29 @@ public class HostController {
     private PriceService priceService;
 
     @GetMapping
-    public ResponseEntity<Iterable<HomeStay>>listHouse(){
-        Iterable<HomeStay>homeStays=homeStayService.findAll();
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Iterable<House>>listHouse(){
+        Iterable<House>homeStays= houseService.findAll();
         return new ResponseEntity<>(homeStays, HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<HomeStay>createHouse(@RequestBody HomeStay homeStay){
-        if (homeStay.getCategoryRoom()!=null){
-        String name=homeStay.getCategoryRoom().getName();
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<House>createHouse(@RequestBody House house){
+        if (house.getCategoryRoom()!=null){
+        String name= house.getCategoryRoom().getName();
         CategoryRoom categoryRoom = categoryRoomService.findByNameRoom(name);
-        homeStay.setCategoryRoom(categoryRoom);
+        house.setCategoryRoom(categoryRoom);
         }
-        if (homeStay.getCategoryHouse() != null){
-            String nameHouse=homeStay.getCategoryHouse().getName();
+        if (house.getCategoryHouse() != null){
+            String nameHouse= house.getCategoryHouse().getName();
             CategoryHouse categoryHouse=categoryHouseService.findByName(nameHouse);
-            homeStay.setCategoryHouse(categoryHouse);
+            house.setCategoryHouse(categoryHouse);
         }
-        if (homeStay.getPrice()!=null){
-            Price price=homeStay.getPrice();
+        if (house.getPrice()!=null){
+            Price price= house.getPrice();
             priceService.save(price);
         }
-        homeStayService.save(homeStay);
+        houseService.save(house);
 
 
 
@@ -58,38 +61,41 @@ public class HostController {
 
 }
     @PutMapping("/{id}")
-    public ResponseEntity<Void> edit(@PathVariable("id") Long id,@RequestBody HomeStay homeStay){
-        Optional<HomeStay>homeStay1= homeStayService.findById(id);
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Void> edit(@PathVariable("id") Long id,@RequestBody House house){
+        Optional<House>homeStay1= houseService.findById(id);
 
         if(homeStay1.isPresent()){
-            homeStay1.get().setNameHouse(homeStay.getNameHouse());
-            homeStay1.get().setCategoryHouse(homeStay.getCategoryHouse());
-            homeStay1.get().setCategoryRoom(homeStay.getCategoryRoom());
-            homeStay1.get().setAddress(homeStay.getAddress());
-            homeStay1.get().setAmountBathRoom(homeStay.getAmountBathRoom());
-            homeStay1.get().setAmountBedRoom(homeStay.getAmountBedRoom());
-            homeStay1.get().setDescription(homeStay.getDescription());
-            homeStay1.get().setImageUrls(homeStay.getImageUrls());
-            homeStay1.get().setPrice(homeStay.getPrice());
+            homeStay1.get().setNameHouse(house.getNameHouse());
+            homeStay1.get().setCategoryHouse(house.getCategoryHouse());
+            homeStay1.get().setCategoryRoom(house.getCategoryRoom());
+            homeStay1.get().setAddress(house.getAddress());
+            homeStay1.get().setAmountBathRoom(house.getAmountBathRoom());
+            homeStay1.get().setAmountBedRoom(house.getAmountBedRoom());
+            homeStay1.get().setDescription(house.getDescription());
+            homeStay1.get().setImageUrls(house.getImageUrls());
+            homeStay1.get().setPrice(house.getPrice());
 
-            homeStayService.save(homeStay1.get());
+            houseService.save(homeStay1.get());
             return new ResponseEntity("thanh cong",HttpStatus.OK);
         }else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
-        Optional<HomeStay> homeStay1 = homeStayService.findById(id);
+        Optional<House> homeStay1 = houseService.findById(id);
         if (homeStay1 == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        homeStayService.delete(id);
+        houseService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<HomeStay> findById(@PathVariable Long id){
-        Optional<HomeStay> homeStay = homeStayService.findById(id);
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<House> findById(@PathVariable Long id){
+        Optional<House> homeStay = houseService.findById(id);
         if (homeStay == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 
 @Entity
-public class HomeStay {
+public class House {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -27,10 +27,10 @@ public class HomeStay {
     @Column(columnDefinition = "TEXT")
     private String imageUrls;
 
-    public HomeStay() {
+    public House() {
     }
 
-    public HomeStay(String nameHouse, CategoryHouse categoryHouse, CategoryRoom categoryRoom, Long amountBathRoom, Long amountBedRoom, String address, String description, Price price, String imageUrls) {
+    public House(String nameHouse, CategoryHouse categoryHouse, CategoryRoom categoryRoom, Long amountBathRoom, Long amountBedRoom, String address, String description, Price price, String imageUrls) {
         this.nameHouse = nameHouse;
         this.categoryHouse = categoryHouse;
         this.categoryRoom = categoryRoom;

@@ -1,9 +1,9 @@
 package com.example.airbnb.repository;
 
-import com.example.airbnb.model.HomeStay;
+import com.example.airbnb.model.House;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HomeStayRepository extends JpaRepository<HomeStay,Long> {
+public interface HouseRepository extends JpaRepository<House,Long> {
 }

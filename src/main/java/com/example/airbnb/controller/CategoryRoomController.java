@@ -6,6 +6,7 @@ import com.example.airbnb.service.CategoryRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,12 +14,15 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/category/room")
+
 public class CategoryRoomController {
     @Autowired
     private CategoryRoomService categoryRoomService;
 
     @GetMapping
+
     public ResponseEntity<Iterable<CategoryRoom>>listCategoryRoom(){
         Iterable<CategoryRoom>categoryRooms=categoryRoomService.findAll();
         return new ResponseEntity<>(categoryRooms, HttpStatus.OK);
