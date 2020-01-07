@@ -31,37 +31,11 @@ public class HostController {
     private PriceService priceService;
 
     @GetMapping
-
     public ResponseEntity<Iterable<House>>listHouse(){
         Iterable<House>homeStays= houseService.findAll();
         return new ResponseEntity<>(homeStays, HttpStatus.OK);
     }
-    @PostMapping
-
-    public ResponseEntity<House>createHouse(@RequestBody House house){
-        if (house.getCategoryRoom()!=null){
-        String name= house.getCategoryRoom().getName();
-        CategoryRoom categoryRoom = categoryRoomService.findByNameRoom(name);
-        house.setCategoryRoom(categoryRoom);
-        }
-        if (house.getCategoryHouse() != null){
-            String nameHouse= house.getCategoryHouse().getName();
-            CategoryHouse categoryHouse=categoryHouseService.findByName(nameHouse);
-            house.setCategoryHouse(categoryHouse);
-        }
-        if (house.getPrice()!=null){
-            Price price= house.getPrice();
-            priceService.save(price);
-        }
-        houseService.save(house);
-
-
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
-
-}
     @PutMapping("/{id}")
-
     public ResponseEntity<Void> edit(@PathVariable("id") Long id,@RequestBody House house){
         Optional<House>homeStay1= houseService.findById(id);
 
@@ -81,6 +55,29 @@ public class HostController {
         }else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+    }
+    @PostMapping
+    public ResponseEntity<House>createHouse(@RequestBody House house){
+        if (house.getCategoryRoom()!=null){
+            String name= house.getCategoryRoom().getName();
+            CategoryRoom categoryRoom = categoryRoomService.findByNameRoom(name);
+            house.setCategoryRoom(categoryRoom);
+        }
+        if (house.getCategoryHouse() != null){
+            String nameHouse= house.getCategoryHouse().getName();
+            CategoryHouse categoryHouse=categoryHouseService.findByName(nameHouse);
+            house.setCategoryHouse(categoryHouse);
+        }
+        if (house.getPrice()!=null){
+            Price price= house.getPrice();
+            priceService.save(price);
+        }
+        houseService.save(house);
+
+
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
     }
     @DeleteMapping("/{id}")
 

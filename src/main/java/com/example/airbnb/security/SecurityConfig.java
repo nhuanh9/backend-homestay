@@ -82,7 +82,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                         "/forgot-password",
                         "/new-password/**",
                         "/users/**",
-                        "/host",
+                        "/host/**",
                         "/role",
                         "/category/room",
                         "/category/house").permitAll()
