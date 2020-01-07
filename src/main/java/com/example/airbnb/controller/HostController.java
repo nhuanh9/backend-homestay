@@ -31,7 +31,7 @@ public class HostController {
     private PriceService priceService;
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+
     public ResponseEntity<Iterable<House>>listHouse(){
         Iterable<House>homeStays= houseService.findAll();
         return new ResponseEntity<>(homeStays, HttpStatus.OK);
