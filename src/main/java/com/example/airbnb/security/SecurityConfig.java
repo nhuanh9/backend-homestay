@@ -84,7 +84,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                         "/users/**",
                         "/host",
                         "/role",
-                        "/findAllQuestionByContent").permitAll()
+                        "/category/room",
+                        "/category/house").permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/categories",
                         "/typeOfQuestions",
