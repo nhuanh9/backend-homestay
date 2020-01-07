@@ -82,7 +82,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                         "/forgot-password",
                         "/new-password/**",
                         "/users/**",
-                        "/findAllQuestionByQuiz",
+                        "/host",
                         "/findAllQuestionByQuizNull",
                         "/findAllQuestionByContent").permitAll()
                 .antMatchers(HttpMethod.GET,
