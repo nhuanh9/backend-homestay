@@ -6,9 +6,9 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
+
 import java.io.Serializable;
-import java.util.HashSet;
+
 import java.util.Set;
 
 @Entity
@@ -41,7 +41,7 @@ public class User implements Serializable {
 
     private String gender;
 
-    private boolean enabled;
+    private boolean enabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",

@@ -8,7 +8,6 @@ import com.example.airbnb.service.impl.JwtService;
 import com.example.airbnb.service.RoleService;
 import com.example.airbnb.service.UserService;
 import com.example.airbnb.service.VerificationTokenService;
-import com.example.airbnb.service.impl.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -29,18 +28,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
-@PropertySource("classpath:application.properties")
 @RestController
+@PropertySource("classpath:application.properties")
+@CrossOrigin("*")
 public class UserController {
     @Autowired
     private Environment env;
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private EmailService emailService;
 
     @Autowired
     private VerificationTokenService verificationTokenService;

@@ -1,7 +1,5 @@
 package com.example.airbnb.security.jwt;
 
-
-
 import com.example.airbnb.service.UserService;
 import com.example.airbnb.service.impl.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
 	@Autowired
 	private JwtService jwtService;
 
