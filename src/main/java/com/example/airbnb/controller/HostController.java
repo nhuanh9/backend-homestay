@@ -11,7 +11,7 @@ import com.example.airbnb.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.web.bind.annotation.*;
 
 
@@ -37,7 +37,7 @@ public class HostController {
         return new ResponseEntity<>(homeStays, HttpStatus.OK);
     }
     @PostMapping
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+
     public ResponseEntity<House>createHouse(@RequestBody House house){
         if (house.getCategoryRoom()!=null){
         String name= house.getCategoryRoom().getName();
@@ -61,7 +61,7 @@ public class HostController {
 
 }
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+
     public ResponseEntity<Void> edit(@PathVariable("id") Long id,@RequestBody House house){
         Optional<House>homeStay1= houseService.findById(id);
 
@@ -83,7 +83,7 @@ public class HostController {
         }
     }
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         Optional<House> homeStay1 = houseService.findById(id);
         if (homeStay1 == null){
@@ -93,7 +93,7 @@ public class HostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+
     public ResponseEntity<House> findById(@PathVariable Long id){
         Optional<House> homeStay = houseService.findById(id);
         if (homeStay == null){

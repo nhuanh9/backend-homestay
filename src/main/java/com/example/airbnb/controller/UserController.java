@@ -1,17 +1,17 @@
 package com.example.airbnb.controller;
 
-import com.example.airbnb.message.request.LoginForm;
-import com.example.airbnb.message.request.SiginUpForm;
-import com.example.airbnb.message.response.JwtResponse;
-import com.example.airbnb.message.response.ResponseMessage;
+import com.example.airbnb.model.JwtResponse;
 import com.example.airbnb.model.Role;
-import com.example.airbnb.model.RoleName;
 import com.example.airbnb.model.User;
-import com.example.airbnb.repository.RoleRepository;
-import com.example.airbnb.repository.UserRepository;
-import com.example.airbnb.security.jwt.JwtProvider;
+import com.example.airbnb.model.VerificationToken;
+import com.example.airbnb.service.impl.JwtService;
 import com.example.airbnb.service.RoleService;
+import com.example.airbnb.service.UserService;
+import com.example.airbnb.service.VerificationTokenService;
+import com.example.airbnb.service.impl.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,92 +20,156 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
+@PropertySource("classpath:application.properties")
 @RestController
 public class UserController {
     @Autowired
-    AuthenticationManager authenticationManager;
+    private Environment env;
 
     @Autowired
-    UserRepository userRepository;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    RoleService roleService;
+    private EmailService emailService;
+
+    @Autowired
+    private VerificationTokenService verificationTokenService;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @GetMapping("/users")
+    public ResponseEntity<Iterable<User>> showAllUser() {
+        Iterable<User> users = userService.findAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
-    @Autowired
-    JwtProvider jwtProvider;
+    @PostMapping("/register")
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Iterable<User> users = userService.findAll();
+        for (User currentUser : users) {
+            if (currentUser.getUsername().equals(user.getUsername())) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
+        if (!userService.isCorrectConfirmPassword(user)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<Role> roleList = (List<Role>) roleService.findAll();
+        if (roleList.isEmpty()) {
+            Role role = new Role();
+            role.setId(1L);
+            role.setName("ROLE_USER");
+            roleService.save(role);
+        }
+        Role role = roleService.findByName("ROLE_USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));
+        userService.save(user);
+        VerificationToken token = new VerificationToken(user);
+        token.setExpiryDate(10);
+        verificationTokenService.save(token);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
 
-    @PostMapping("/sign-in")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
+    @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<Void> confirmUserAccount(@RequestParam("token") String verificationToken) {
+        VerificationToken token = verificationTokenService.findByToken(verificationToken);
+        if (token != null) {
+            boolean isExpired = token.isExpired();
+            if (!isExpired) {
+                User user = userService.findByEmail(token.getUser().getEmail());
+                user.setEnabled(true);
+                userService.save(user);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtProvider.generateJwtToken(authentication);
+        String jwt = jwtService.generateTokenLogin(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+        User currentUser = userService.findByUsername(user.getUsername());
+        return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), userDetails.getAuthorities()));
     }
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SiginUpForm signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity<>(new ResponseMessage("Fail -> Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getProfile(@PathVariable Long id) {
+        Optional<User> userOptional = this.userService.findById(id);
+        return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateUserProfile(@PathVariable Long id, @RequestBody User user) {
+        Optional<User> userOptional = this.userService.findById(id);
+        if (!userOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        user.setId(userOptional.get().getId());
+        user.setUsername(userOptional.get().getUsername());
+        user.setEmail(userOptional.get().getEmail());
+        user.setEnabled(userOptional.get().isEnabled());
+        user.setPassword(userOptional.get().getPassword());
+        user.setRoles(userOptional.get().getRoles());
+        user.setConfirmPassword(userOptional.get().getConfirmPassword());
+        userService.save(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<>(new ResponseMessage("Fail -> Email is already in use!"),
-                    HttpStatus.BAD_REQUEST);
+    @RequestMapping(value = "/new-password/{id}", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<User> updatePassword(@RequestParam("token") String token, @PathVariable Long id, @RequestBody User user) {
+        VerificationToken verificationToken = verificationTokenService.findByToken(token);
+        boolean isExpired = verificationToken.isExpired();
+        if (token == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        // Creating user's account
-        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
-                passwordEncoder.encode(signUpRequest.getPassword()),signUpRequest.getPhoneNumber());
-
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        strRoles.forEach(role -> {
-            switch (role) {
-                case "admin":
-                    Role adminRole = roleService.findByName(RoleName.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(adminRole);
-
-                    break;
-                case "pm":
-                    Role pmRole = roleService.findByName(RoleName.ROLE_PM)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(pmRole);
-
-                    break;
-                default:
-                    Role userRole = roleService.findByName(RoleName.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(userRole);
-            }
-        });
-
-        user.setRoles(roles);
-        userRepository.save(user);
-
-        return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
+        if (isExpired) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Optional<User> userOptional = userService.findById(id);
+        if (!userOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (!userService.isCorrectConfirmPassword(user)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        String newPassword = passwordEncoder.encode(user.getPassword());
+        String confirmPassword = passwordEncoder.encode(user.getConfirmPassword());
+        user.setPassword(newPassword);
+        user.setConfirmPassword(confirmPassword);
+        userService.save(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

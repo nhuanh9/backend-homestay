@@ -1,34 +1,23 @@
 package com.example.airbnb.model;
 
+import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
-@Table (name = "roles")
-public class Role {
+@Data
+public class Role implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
-    @NaturalId
-    @Column(length = 60)
-    private  RoleName name;
+    private String name;
 
-    public Role(){};
-
-    public Role(RoleName name) {
-        this.name = name;
-    }
-
-
-    public RoleName getName() {
-        return name;
-    }
-
-    public void setName(RoleName name) {
-        this.name = name;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Long getId() {
@@ -39,5 +28,11 @@ public class Role {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }

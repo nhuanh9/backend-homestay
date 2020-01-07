@@ -7,52 +7,50 @@ import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user",uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-                "username"
-        }),
-        @UniqueConstraint(columnNames = {
-                "email"
-        })
-})
-public class User {
+@Table(name = "userTable")
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min=3, max = 50)
-    private String name;
 
-    @Size(min=3, max = 50)
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @NaturalId
-    @Size(max = 50)
-    @Email
-    private String email;
-
-    @Size(min=6, max = 100)
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String confirmPassword;
+
+    private String firstName;
+
+    private String lastName;
+
+    @Email
+    @Column(unique = true, nullable = false)
+    private String email;
 
     private String phoneNumber;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private String gender;
 
-    public User() {}
+    private boolean enabled;
 
-    public User(String name, String username, String email, String password,String phoneNumber) {
-        this.name = name;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Role> roles;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Long getId() {
@@ -63,28 +61,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
@@ -95,12 +77,60 @@ public class User {
         this.password = password;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Set<Role> getRoles() {

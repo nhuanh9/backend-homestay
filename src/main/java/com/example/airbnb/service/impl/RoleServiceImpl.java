@@ -1,7 +1,6 @@
 package com.example.airbnb.service.impl;
 
 import com.example.airbnb.model.Role;
-import com.example.airbnb.model.RoleName;
 import com.example.airbnb.repository.RoleRepository;
 import com.example.airbnb.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,8 @@ roleRepository.save(role);
     }
 
     @Override
-    public Optional<Role> findByName(RoleName roleName) {
-        return roleRepository.findByName(roleName);
+    public Role findByName(String name) {
+        return roleRepository.findByName(name);
     }
 
 

@@ -1,9 +1,9 @@
 package com.example.airbnb.security.jwt;
 
 
-import com.example.airbnb.security.services.UserDetailsServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.example.airbnb.service.UserService;
+import com.example.airbnb.service.impl.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,26 +17,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtAuthTokenFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private JwtProvider tokenProvider;
+	private JwtService jwtService;
 
 	@Autowired
-	private UserDetailsServiceImpl userDetailsService;
-
-	private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
+	private UserService userService;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	protected void doFilterInternal(HttpServletRequest request,
+									HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		try {
+			String jwt = getJwtFromRequest(request);
+			if (jwt != null && jwtService.validateJwtToken(jwt)) {
+				String username = jwtService.getUserNameFromJwtToken(jwt);
 
-			String jwt = getJwt(request);
-			if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
-				String username = tokenProvider.getUserNameFromJwtToken(jwt);
-
-				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+				UserDetails userDetails = userService.loadUserByUsername(username);
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -50,7 +48,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 
-	private String getJwt(HttpServletRequest request) {
+	private String getJwtFromRequest(HttpServletRequest request) {
 		String authHeader = request.getHeader("Authorization");
 
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
