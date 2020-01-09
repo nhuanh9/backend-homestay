@@ -73,17 +73,18 @@ public class UserController {
         if (!userService.isCorrectConfirmPassword(user)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        List<Role> roleList = (List<Role>) roleService.findAll();
-        if (roleList.isEmpty()) {
-            Role role = new Role();
-            role.setId(1L);
-            role.setName("ROLE_USER");
-            roleService.save(role);
-        }
-        Role role = roleService.findByName("ROLE_USER");
+
+        Role role = roleService.findByName("ROLE_ADMIN");
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
+
+        Role role1 = roleService.findByName("ROLE_USER");
+        Set<Role> roles1 = new HashSet<>();
+        roles1.add(role1);
+        user.setRoles(roles1);
+
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));
         userService.save(user);

@@ -80,7 +80,6 @@ public class HostController {
 
     }
     @DeleteMapping("/{id}")
-
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         Optional<House> homeStay1 = houseService.findById(id);
         if (homeStay1 == null){
