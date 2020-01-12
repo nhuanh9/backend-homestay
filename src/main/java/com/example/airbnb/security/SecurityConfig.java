@@ -82,26 +82,12 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                         "/forgot-password",
                         "/new-password/**",
                         "/users/**",
-                        "/host/**",
+
                         "/role",
                         "/category/room",
                         "/category/house").permitAll()
                 .antMatchers(HttpMethod.GET,
-                        "/categories",
-                        "/typeOfQuestions",
-                        "/questions",
-                        "/answers/**",
-                        "/quizzes").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-                .antMatchers(HttpMethod.POST, "/categories",
-                        "/typeOfQuestions",
-                        "/questions",
-                        "/answers",
-                        "/quizzes").access("hasRole('ROLE_ADMIN')")
-                .antMatchers(HttpMethod.PUT, "/categories",
-                        "/typeOfQuestions",
-                        "/questions",
-                        "/answers",
-                        "/quizzes").access("hasRole('ROLE_ADMIN')")
+                        "/host/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.DELETE, "/categories",
                         "/typeOfQuestions",
                         "/questions",

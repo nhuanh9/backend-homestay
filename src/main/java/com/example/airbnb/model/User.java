@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 
 import java.io.Serializable;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -48,6 +49,8 @@ public class User implements Serializable {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
+
+
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

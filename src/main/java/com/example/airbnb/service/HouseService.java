@@ -13,5 +13,5 @@ public interface HouseService {
     void save(House house);
 
     void delete(Long id);
-
+    
 }

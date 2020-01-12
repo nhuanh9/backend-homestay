@@ -3,6 +3,8 @@ package com.example.airbnb.model;
 
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -10,13 +12,15 @@ public class House {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    private String hostName;
+
     private String nameHouse;
     @ManyToOne
     @JoinColumn(name = "category_home")
     private CategoryHouse categoryHouse;
-    @ManyToOne
-    @JoinColumn(name = "category_room")
-    private CategoryRoom categoryRoom;
+
+
     private Long amountBathRoom;
     private Long amountBedRoom;
     private String address;
@@ -27,19 +31,38 @@ public class House {
     @Column(columnDefinition = "TEXT")
     private String imageUrls;
 
+    @OneToMany(targetEntity = Room.class)
+    private List<Room> rooms;
+
     public House() {
     }
 
-    public House(String nameHouse, CategoryHouse categoryHouse, CategoryRoom categoryRoom, Long amountBathRoom, Long amountBedRoom, String address, String description, Price price, String imageUrls) {
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public House(String hostName, String nameHouse, CategoryHouse categoryHouse, Long amountBathRoom, Long amountBedRoom, String address, String description, Price price, String imageUrls) {
+        this.hostName=hostName;
         this.nameHouse = nameHouse;
         this.categoryHouse = categoryHouse;
-        this.categoryRoom = categoryRoom;
         this.amountBathRoom = amountBathRoom;
         this.amountBedRoom = amountBedRoom;
         this.address = address;
         this.description = description;
         this.price = price;
         this.imageUrls = imageUrls;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 
     public Long getId() {
@@ -66,13 +89,7 @@ public class House {
         this.categoryHouse = categoryHouse;
     }
 
-    public CategoryRoom getCategoryRoom() {
-        return categoryRoom;
-    }
 
-    public void setCategoryRoom(CategoryRoom categoryRoom) {
-        this.categoryRoom = categoryRoom;
-    }
 
     public Long getAmountBathRoom() {
         return amountBathRoom;

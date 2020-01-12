@@ -1,13 +1,7 @@
 package com.example.airbnb.controller;
 
-import com.example.airbnb.model.CategoryHouse;
-import com.example.airbnb.model.CategoryRoom;
-import com.example.airbnb.model.House;
-import com.example.airbnb.model.Price;
-import com.example.airbnb.service.CategoryHouseService;
-import com.example.airbnb.service.CategoryRoomService;
-import com.example.airbnb.service.HouseService;
-import com.example.airbnb.service.PriceService;
+import com.example.airbnb.model.*;
+import com.example.airbnb.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/host")
-public class HostController {
+public class HouseController {
     @Autowired
     private HouseService houseService;
     @Autowired
@@ -29,7 +26,10 @@ public class HostController {
     private CategoryRoomService categoryRoomService;
     @Autowired
     private PriceService priceService;
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RoomService roomService;
     @GetMapping
     public ResponseEntity<Iterable<House>>listHouse(){
         Iterable<House>homeStays= houseService.findAll();
@@ -42,7 +42,7 @@ public class HostController {
         if(homeStay1.isPresent()){
             homeStay1.get().setNameHouse(house.getNameHouse());
             homeStay1.get().setCategoryHouse(house.getCategoryHouse());
-            homeStay1.get().setCategoryRoom(house.getCategoryRoom());
+
             homeStay1.get().setAddress(house.getAddress());
             homeStay1.get().setAmountBathRoom(house.getAmountBathRoom());
             homeStay1.get().setAmountBedRoom(house.getAmountBedRoom());
@@ -56,13 +56,15 @@ public class HostController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
+
+
     @PostMapping
-    public ResponseEntity<House>createHouse(@RequestBody House house){
-        if (house.getCategoryRoom()!=null){
-            String name= house.getCategoryRoom().getName();
-            CategoryRoom categoryRoom = categoryRoomService.findByNameRoom(name);
-            house.setCategoryRoom(categoryRoom);
-        }
+    public ResponseEntity<String>createHouse(@RequestBody House house){
+
+        User user=userService.getCurrentUser();
+        house.setHostName(user.getUsername());
+
+
         if (house.getCategoryHouse() != null){
             String nameHouse= house.getCategoryHouse().getName();
             CategoryHouse categoryHouse=categoryHouseService.findByName(nameHouse);
@@ -72,11 +74,10 @@ public class HostController {
             Price price= house.getPrice();
             priceService.save(price);
         }
+
         houseService.save(house);
 
-
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("tao moi thanh cong",HttpStatus.CREATED);
 
     }
     @DeleteMapping("/{id}")
@@ -89,7 +90,6 @@ public class HostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/{id}")
-
     public ResponseEntity<House> findById(@PathVariable Long id){
         Optional<House> homeStay = houseService.findById(id);
         if (homeStay == null){
