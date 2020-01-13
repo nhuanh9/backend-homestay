@@ -59,11 +59,7 @@ public class HouseController {
 
 
     @PostMapping
-    public ResponseEntity<String>createHouse(@RequestBody House house){
-
-        User user=userService.getCurrentUser();
-        house.setHostName(user.getUsername());
-
+    public ResponseEntity<House>createHouse(@RequestBody House house){
 
         if (house.getCategoryHouse() != null){
             String nameHouse= house.getCategoryHouse().getName();
@@ -74,10 +70,8 @@ public class HouseController {
             Price price= house.getPrice();
             priceService.save(price);
         }
-
         houseService.save(house);
-
-        return new ResponseEntity<>("tao moi thanh cong",HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
     @DeleteMapping("/{id}")
