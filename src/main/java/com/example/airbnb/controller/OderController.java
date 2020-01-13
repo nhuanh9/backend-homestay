@@ -11,6 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 
 
@@ -34,6 +38,30 @@ public class OderController {
         }else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+    }
+    @GetMapping
+    public ResponseEntity<Iterable<Room>>listOder(){
+        Iterable<OderForm>oderForms= oderService.findAll();
+        return new ResponseEntity(oderForms, HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable("id") Long id){
+        Optional<OderForm> oderForm = oderService.findById(id);
+        if (oderForm == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+            Calendar cal = Calendar.getInstance();
+            Date date = cal.getTime();
+            long oderTime = oderForm.get().getFormDate().getTime();
+            long currentTime = date.getTime();
+            long timeDemo = oderTime - currentTime;
+            if (timeDemo>86400){
+                oderService.delete(id);
+            }else {
+                return new ResponseEntity<>("khong duoc xoa",HttpStatus.NOT_FOUND);
+            }
+        return new ResponseEntity("thanh cong", HttpStatus.OK);
     }
 
 }

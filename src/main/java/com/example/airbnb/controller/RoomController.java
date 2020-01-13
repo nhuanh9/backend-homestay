@@ -2,6 +2,7 @@ package com.example.airbnb.controller;
 
 
 import com.example.airbnb.model.House;
+import com.example.airbnb.model.Role;
 import com.example.airbnb.model.Room;
 import com.example.airbnb.service.HouseService;
 import com.example.airbnb.service.RoomService;
@@ -21,7 +22,7 @@ public class RoomController {
     @Autowired
     private HouseService houseService;
     @GetMapping
-    public ResponseEntity<Iterable<House>>listRomm(){
+    public ResponseEntity<Iterable<Room>>listRomm(){
         Iterable<Room>rooms= roomService.findAll();
         return new ResponseEntity(rooms, HttpStatus.OK);
     }
@@ -66,4 +67,5 @@ public class RoomController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
+
 }

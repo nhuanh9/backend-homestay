@@ -3,7 +3,10 @@ package com.example.airbnb.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Date;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+
 
 @Entity
 
@@ -12,15 +15,16 @@ public class OderForm {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date formDate;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date toDate;
 
     public OderForm(Date formDate, Date toDate) {
         this.formDate = formDate;
         this.toDate = toDate;
+
     }
 
     public OderForm() {
