@@ -26,6 +26,7 @@ public class OderController {
     private RoomService roomService;
     @Autowired
     private OderService oderService;
+    //oder 1 phong id la id cua phong
     @PostMapping("room/{id}")
     public ResponseEntity<String> createOderRoom(@PathVariable("id") Long id, @RequestBody OderForm oderForm){
         Optional<Room> room=roomService.findById(id);
@@ -39,24 +40,25 @@ public class OderController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
+    //xem tat ca oder
     @GetMapping
     public ResponseEntity<Iterable<Room>>listOder(){
         Iterable<OderForm>oderForms= oderService.findAll();
         return new ResponseEntity(oderForms, HttpStatus.OK);
     }
+    //huy oder truoc 1 ngay
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id){
         Optional<OderForm> oderForm = oderService.findById(id);
         if (oderForm == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
             Calendar cal = Calendar.getInstance();
             Date date = cal.getTime();
             long oderTime = oderForm.get().getFormDate().getTime();
             long currentTime = date.getTime();
             long timeDemo = oderTime - currentTime;
-            if (timeDemo>86400){
+            if (timeDemo>86400||timeDemo<0){
                 oderService.delete(id);
             }else {
                 return new ResponseEntity<>("khong duoc xoa",HttpStatus.NOT_FOUND);

@@ -13,4 +13,5 @@ public interface CategoryHouseService {
     void save(CategoryHouse categoryHome);
 
     CategoryHouse findByName(String name);
+
 }

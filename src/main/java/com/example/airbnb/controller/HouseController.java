@@ -1,6 +1,7 @@
 package com.example.airbnb.controller;
 
 import com.example.airbnb.model.*;
+import com.example.airbnb.search.SearchAdress;
 import com.example.airbnb.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,11 +31,13 @@ public class HouseController {
     private UserService userService;
     @Autowired
     private RoomService roomService;
+    //danh sach tat ca cac nha
     @GetMapping
     public ResponseEntity<Iterable<House>>listHouse(){
         Iterable<House>homeStays= houseService.findAll();
         return new ResponseEntity<>(homeStays, HttpStatus.OK);
     }
+    //sua thong tin 1 nha
     @PutMapping("/{id}")
     public ResponseEntity<Void> edit(@PathVariable("id") Long id,@RequestBody House house){
         Optional<House>homeStay1= houseService.findById(id);
@@ -57,7 +60,7 @@ public class HouseController {
         }
     }
 
-
+    //tao moi 1 nha
     @PostMapping
     public ResponseEntity<House>createHouse(@RequestBody House house){
         User user=userService.getCurrentUser();
@@ -75,6 +78,7 @@ public class HouseController {
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
+    //xoa 1 nha
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         Optional<House> homeStay1 = houseService.findById(id);
@@ -84,6 +88,7 @@ public class HouseController {
         houseService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    //xem chi tiet 1 nha
     @GetMapping("/{id}")
     public ResponseEntity<House> findById(@PathVariable Long id){
         Optional<House> homeStay = houseService.findById(id);
@@ -92,5 +97,7 @@ public class HouseController {
         }
         return new ResponseEntity(homeStay, HttpStatus.OK);
     }
+    //tim kiem theo adress
+
 
 }

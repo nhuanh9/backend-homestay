@@ -19,7 +19,6 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping
-
     public ResponseEntity<Iterable<Role>>listRole(){
         Iterable<Role>roles=roleService.findAll();
         return new ResponseEntity<>(roles, HttpStatus.OK);

@@ -13,5 +13,6 @@ public interface HouseService {
     void save(House house);
 
     void delete(Long id);
+    Iterable<House>findAllByAddress(String name);
     
 }

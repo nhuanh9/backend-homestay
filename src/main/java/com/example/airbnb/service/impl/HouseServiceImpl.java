@@ -39,5 +39,10 @@ public class HouseServiceImpl implements HouseService {
         }
     }
 
+    @Override
+    public Iterable<House> findAllByAddress(String name) {
+        return houseRepository.findAllByAddress(name);
+    }
+
 
 }
