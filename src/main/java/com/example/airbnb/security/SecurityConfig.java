@@ -76,6 +76,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
                 .antMatchers("/login",
+                        "/host/**",
                         "/register",
                         "/confirm-account/**",
                         "/forgot-password",
@@ -84,9 +85,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                         "/role",
                         "/category/room",
                         "/category/house").permitAll()
-                .antMatchers(HttpMethod.GET,
-                        "/host/**",
-                        "/oder/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.GET
+                        ).access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.DELETE, "/categories",
                         "/typeOfQuestions",
                         "/questions",
