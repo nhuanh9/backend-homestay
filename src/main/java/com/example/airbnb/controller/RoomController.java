@@ -26,10 +26,18 @@ public class RoomController {
         return new ResponseEntity(rooms, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<String> findById(@PathVariable Long id){
+        Optional<Room> room = roomService.findById(id);
+        if (room == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(room, HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Void> edit(@PathVariable("id") Long id,@RequestBody Room room){
         Optional<Room> room1= roomService.findById(id);
-
         if(room1.isPresent()){
             room1.get().setNameHouse(room.getNameHouse());
 
@@ -48,7 +56,9 @@ public class RoomController {
         Optional<House>house1=houseService.findById(id);
 
         if (house1.isPresent()){
+            room.setNameHouse(house1.get().getNameHouse());
             roomService.save(room);
+
             house1.get().getRooms().add(room);
             houseService.save(house1.get());
             return new ResponseEntity("thanh cong",HttpStatus.OK);
