@@ -60,7 +60,8 @@ public class HouseController {
 
     @PostMapping
     public ResponseEntity<House>createHouse(@RequestBody House house){
-
+        User user=userService.getCurrentUser();
+        house.setHostName(user.getUsername());
         if (house.getCategoryHouse() != null){
             String nameHouse= house.getCategoryHouse().getName();
             CategoryHouse categoryHouse=categoryHouseService.findByName(nameHouse);
