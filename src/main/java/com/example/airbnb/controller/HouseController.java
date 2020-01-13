@@ -1,7 +1,7 @@
 package com.example.airbnb.controller;
 
 import com.example.airbnb.model.*;
-import com.example.airbnb.search.SearchAdress;
+
 import com.example.airbnb.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -98,6 +98,10 @@ public class HouseController {
         return new ResponseEntity(homeStay, HttpStatus.OK);
     }
     //tim kiem theo adress
-
+    @PostMapping("/search")
+    public ResponseEntity<Iterable<House>>listHouseInAdress(@RequestParam String address){
+        Iterable<House>houses=houseService.findAllByAddress(address);
+        return new ResponseEntity<>(houses,HttpStatus.OK);
+    }
 
 }

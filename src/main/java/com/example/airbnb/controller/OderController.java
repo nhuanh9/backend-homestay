@@ -26,12 +26,16 @@ public class OderController {
     private RoomService roomService;
     @Autowired
     private OderService oderService;
+
+
     //oder 1 phong id la id cua phong
     @PostMapping("room/{id}")
     public ResponseEntity<String> createOderRoom(@PathVariable("id") Long id, @RequestBody OderForm oderForm){
         Optional<Room> room=roomService.findById(id);
-
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
         if (room.isPresent()){
+            oderForm.setTimeOder(date);
             oderService.save(oderForm);
             room.get().getOderForms().add(oderForm);
             roomService.save(room.get());

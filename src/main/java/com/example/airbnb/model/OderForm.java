@@ -16,18 +16,29 @@ public class OderForm {
     private Long id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date timeOder;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date formDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date toDate;
 
-    public OderForm(Date formDate, Date toDate) {
+    public OderForm(Date timeOder,Date formDate, Date toDate) {
+        this.timeOder=timeOder;
         this.formDate = formDate;
         this.toDate = toDate;
-
     }
 
     public OderForm() {
+    }
+
+    public Date getTimeOder() {
+        return timeOder;
+    }
+
+    public void setTimeOder(Date timeOder) {
+        this.timeOder = timeOder;
     }
 
     public Long getId() {
