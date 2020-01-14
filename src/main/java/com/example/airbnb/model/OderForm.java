@@ -15,22 +15,34 @@ public class OderForm {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date timeOder;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date formDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date toDate;
 
-    public OderForm(Date timeOder,Date formDate, Date toDate) {
+    private Long total;
+
+
+    public OderForm(Date timeOder,Date formDate, Date toDate,Long total) {
         this.timeOder=timeOder;
         this.formDate = formDate;
         this.toDate = toDate;
+        this.total=total;
     }
 
     public OderForm() {
+    }
+
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setTotal(Long total) {
+        this.total = total;
     }
 
     public Date getTimeOder() {

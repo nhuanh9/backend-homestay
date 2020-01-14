@@ -25,9 +25,7 @@ public class House {
     private Long amountBedRoom;
     private String address;
     private String description;
-    @OneToOne
-    @JoinColumn(name = "price")
-    private Price price;
+
     @Column(columnDefinition = "TEXT")
     private String imageUrls;
 
@@ -45,7 +43,7 @@ public class House {
         this.rooms = rooms;
     }
 
-    public House(String hostName, String nameHouse, CategoryHouse categoryHouse, Long amountBathRoom, Long amountBedRoom, String address, String description, Price price, String imageUrls) {
+    public House(String hostName, String nameHouse, CategoryHouse categoryHouse, Long amountBathRoom, Long amountBedRoom, String address, String description,  String imageUrls) {
         this.hostName=hostName;
         this.nameHouse = nameHouse;
         this.categoryHouse = categoryHouse;
@@ -53,7 +51,6 @@ public class House {
         this.amountBedRoom = amountBedRoom;
         this.address = address;
         this.description = description;
-        this.price = price;
         this.imageUrls = imageUrls;
     }
 
@@ -121,14 +118,6 @@ public class House {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Price getPrice() {
-        return price;
-    }
-
-    public void setPrice(Price price) {
-        this.price = price;
     }
 
     public String getImageUrls() {

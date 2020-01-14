@@ -11,9 +11,8 @@ public class Room {
 
     private String nameHouse;
     private String nameHost;
-
-
     private String description;
+    private Long priceRoom;
 
     @Column(columnDefinition = "TEXT")
     private String imageUrls;
@@ -21,16 +20,24 @@ public class Room {
     @OneToMany(targetEntity = OderForm.class)
     private List<OderForm> oderForms;
 
-    public Room(String nameHouse, String nameHost,  String description, String imageUrls) {
+    public Room(String nameHouse, String nameHost,  String description,Long priceRoom, String imageUrls) {
         this.nameHouse = nameHouse;
         this.nameHost = nameHost;
-
         this.description = description;
+        this.priceRoom=priceRoom;
         this.imageUrls = imageUrls;
     }
 
 
     public Room() {
+    }
+
+    public Long getPriceRoom() {
+        return priceRoom;
+    }
+
+    public void setPriceRoom(Long priceRoom) {
+        this.priceRoom = priceRoom;
     }
 
     public List<OderForm> getOderForms() {

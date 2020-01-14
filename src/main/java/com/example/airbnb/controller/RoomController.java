@@ -39,20 +39,21 @@ public class RoomController {
     }
     //sua thong tin 1 phong
     @PutMapping("/{id}")
-    public ResponseEntity<Void> edit(@PathVariable("id") Long id,@RequestBody Room room){
+    public ResponseEntity<Iterable<Room>> edit(@PathVariable("id") Long id,@RequestBody Room room){
         Optional<Room> room1= roomService.findById(id);
         if(room1.isPresent()){
             room1.get().setDescription(room.getDescription());
             room1.get().setImageUrls(room.getImageUrls());
+            room1.get().setPriceRoom(room.getPriceRoom());
             roomService.save(room1.get());
-            return new ResponseEntity("thanh cong",HttpStatus.OK);
+            return new ResponseEntity(room1,HttpStatus.OK);
         }else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
     //tao 1 phong trong nha id la id cua nha
     @PostMapping("/{id}")
-    public ResponseEntity<String>createRoomInHouse(@PathVariable("id") Long id,@RequestBody Room room){
+    public ResponseEntity<Iterable<House>>createRoomInHouse(@PathVariable("id") Long id,@RequestBody Room room){
         Optional<House>house1=houseService.findById(id);
 
         if (house1.isPresent()){
@@ -61,7 +62,7 @@ public class RoomController {
             roomService.save(room);
             house1.get().getRooms().add(room);
             houseService.save(house1.get());
-            return new ResponseEntity("thanh cong",HttpStatus.OK);
+            return new ResponseEntity(house1,HttpStatus.OK);
         }else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

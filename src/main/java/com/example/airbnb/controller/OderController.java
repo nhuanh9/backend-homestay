@@ -30,16 +30,23 @@ public class OderController {
 
     //oder 1 phong id la id cua phong
     @PostMapping("room/{id}")
-    public ResponseEntity<String> createOderRoom(@PathVariable("id") Long id, @RequestBody OderForm oderForm){
+    public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OderForm oderForm){
         Optional<Room> room=roomService.findById(id);
-        Calendar cal = Calendar.getInstance();
-        Date date = cal.getTime();
+
         if (room.isPresent()){
+            Calendar cal = Calendar.getInstance();
+            Date date = cal.getTime();
+            long fromDate=oderForm.getFormDate().getTime();
+            long toDate=oderForm.getToDate().getTime();
+            long timeOder=toDate-fromDate;
+            long days=timeOder/86400;
+            Long price=room.get().getPriceRoom();
+            oderForm.setTotal(days*price);
             oderForm.setTimeOder(date);
             oderService.save(oderForm);
             room.get().getOderForms().add(oderForm);
             roomService.save(room.get());
-            return new ResponseEntity("thanh cong", HttpStatus.OK);
+            return new ResponseEntity(room, HttpStatus.OK);
         }else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

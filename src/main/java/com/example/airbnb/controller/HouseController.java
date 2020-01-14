@@ -25,8 +25,7 @@ public class HouseController {
     private CategoryHouseService categoryHouseService;
     @Autowired
     private CategoryRoomService categoryRoomService;
-    @Autowired
-    private PriceService priceService;
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -51,7 +50,7 @@ public class HouseController {
             homeStay1.get().setAmountBedRoom(house.getAmountBedRoom());
             homeStay1.get().setDescription(house.getDescription());
             homeStay1.get().setImageUrls(house.getImageUrls());
-            homeStay1.get().setPrice(house.getPrice());
+
 
             houseService.save(homeStay1.get());
             return new ResponseEntity("thanh cong",HttpStatus.OK);
@@ -63,17 +62,12 @@ public class HouseController {
     //tao moi 1 nha
     @PostMapping
     public ResponseEntity<House>createHouse(@RequestBody House house){
-        User user=userService.getCurrentUser();
-        house.setHostName(user.getUsername());
         if (house.getCategoryHouse() != null){
             String nameHouse= house.getCategoryHouse().getName();
             CategoryHouse categoryHouse=categoryHouseService.findByName(nameHouse);
             house.setCategoryHouse(categoryHouse);
         }
-        if (house.getPrice()!=null){
-            Price price= house.getPrice();
-            priceService.save(price);
-        }
+
         houseService.save(house);
         return new ResponseEntity<>(HttpStatus.CREATED);
 
