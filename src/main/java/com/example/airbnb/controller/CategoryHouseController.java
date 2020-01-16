@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-
 @RequestMapping("/category/house")
 public class CategoryHouseController {
     @Autowired

@@ -52,7 +52,7 @@ public class RoomController {
         }
     }
     //tao 1 phong trong nha id la id cua nha
-    @PostMapping("/{id}")
+    @PostMapping("house/{id}")
     public ResponseEntity<Iterable<House>>createRoomInHouse(@PathVariable("id") Long id,@RequestBody Room room){
         Optional<House>house1=houseService.findById(id);
 

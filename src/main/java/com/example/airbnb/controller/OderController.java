@@ -27,7 +27,7 @@ public class OderController {
     @Autowired
     private OderService oderService;
 
-
+    private long oneDay=86400000;
     //oder 1 phong id la id cua phong
     @PostMapping("room/{id}")
     public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OderForm oderForm){
@@ -39,7 +39,7 @@ public class OderController {
             long fromDate=oderForm.getFormDate().getTime();
             long toDate=oderForm.getToDate().getTime();
             long timeOder=toDate-fromDate;
-            long days=timeOder/86400;
+            long days=timeOder/oneDay;
             Long price=room.get().getPriceRoom();
             oderForm.setTotal(days*price);
             oderForm.setTimeOder(date);
@@ -69,7 +69,7 @@ public class OderController {
             long oderTime = oderForm.get().getFormDate().getTime();
             long currentTime = date.getTime();
             long timeDemo = oderTime - currentTime;
-            if (timeDemo>86400||timeDemo<0){
+            if (timeDemo>oneDay||timeDemo<0){
                 oderService.delete(id);
             }else {
                 return new ResponseEntity<>("khong duoc xoa",HttpStatus.NOT_FOUND);

@@ -17,7 +17,7 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/host")
+@RequestMapping("/house")
 public class HouseController {
     @Autowired
     private HouseService houseService;
