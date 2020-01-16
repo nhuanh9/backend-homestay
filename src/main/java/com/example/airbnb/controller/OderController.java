@@ -28,29 +28,7 @@ public class OderController {
     private OderService oderService;
 
     private long oneDay=86400000;
-    //oder 1 phong id la id cua phong
-    @PostMapping("room/{id}")
-    public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OderForm oderForm){
-        Optional<Room> room=roomService.findById(id);
 
-        if (room.isPresent()){
-            Calendar cal = Calendar.getInstance();
-            Date date = cal.getTime();
-            long fromDate=oderForm.getFormDate().getTime();
-            long toDate=oderForm.getToDate().getTime();
-            long timeOder=toDate-fromDate;
-            long days=timeOder/oneDay;
-            Long price=room.get().getPriceRoom();
-            oderForm.setTotal(days*price);
-            oderForm.setTimeOder(date);
-            oderService.save(oderForm);
-            room.get().getOderForms().add(oderForm);
-            roomService.save(room.get());
-            return new ResponseEntity(room, HttpStatus.OK);
-        }else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-    }
     //xem tat ca oder
     @GetMapping
     public ResponseEntity<Iterable<Room>>listOder(){

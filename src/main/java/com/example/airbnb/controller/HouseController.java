@@ -17,7 +17,7 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/house")
+@RequestMapping()
 public class HouseController {
     @Autowired
     private HouseService houseService;
@@ -31,13 +31,13 @@ public class HouseController {
     @Autowired
     private RoomService roomService;
     //danh sach tat ca cac nha
-    @GetMapping
+    @GetMapping("/house")
     public ResponseEntity<Iterable<House>>listHouse(){
         Iterable<House>homeStays= houseService.findAll();
         return new ResponseEntity<>(homeStays, HttpStatus.OK);
     }
     //sua thong tin 1 nha
-    @PutMapping("/{id}")
+    @PutMapping("/house/{id}")
     public ResponseEntity<Void> edit(@PathVariable("id") Long id,@RequestBody House house){
         Optional<House>homeStay1= houseService.findById(id);
 
@@ -60,7 +60,7 @@ public class HouseController {
     }
 
     //tao moi 1 nha
-    @PostMapping
+    @PostMapping("/house")
     public ResponseEntity<House>createHouse(@RequestBody House house){
         if (house.getCategoryHouse() != null){
             String nameHouse= house.getCategoryHouse().getName();
@@ -73,7 +73,7 @@ public class HouseController {
 
     }
     //xoa 1 nha
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/house/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         Optional<House> homeStay1 = houseService.findById(id);
         if (homeStay1 == null){
@@ -83,7 +83,7 @@ public class HouseController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     //xem chi tiet 1 nha
-    @GetMapping("/{id}")
+    @GetMapping("/house/{id}")
     public ResponseEntity<House> findById(@PathVariable Long id){
         Optional<House> homeStay = houseService.findById(id);
         if (homeStay == null){
@@ -92,10 +92,26 @@ public class HouseController {
         return new ResponseEntity(homeStay, HttpStatus.OK);
     }
     //tim kiem theo adress
-    @PostMapping("/search")
+    @PostMapping("/house/search")
     public ResponseEntity<Iterable<House>>listHouseInAdress(@RequestParam String address){
         Iterable<House>houses=houseService.findAllByAddress(address);
         return new ResponseEntity<>(houses,HttpStatus.OK);
+    }
+    //tao 1 phong trong nha id la id cua nha
+    @PostMapping("house/{id}/room")
+    public ResponseEntity<Iterable<House>>createRoomInHouse(@PathVariable("id") Long id,@RequestBody Room room){
+        Optional<House>house1=houseService.findById(id);
+
+        if (house1.isPresent()){
+            room.setNameHouse(house1.get().getNameHouse());
+            room.setNameHost(house1.get().getHostName());
+            roomService.save(room);
+            house1.get().getRooms().add(room);
+            houseService.save(house1.get());
+            return new ResponseEntity(house1,HttpStatus.OK);
+        }else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
