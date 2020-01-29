@@ -80,6 +80,7 @@ public class HouseController {
             String nameHouse = house.getCategoryHouse().getName();
             CategoryHouse categoryHouse = categoryHouseService.findByName(nameHouse);
             house.setCategoryHouse(categoryHouse);
+            
         }
         houseService.save(house);
         return new ResponseEntity<>(HttpStatus.CREATED);

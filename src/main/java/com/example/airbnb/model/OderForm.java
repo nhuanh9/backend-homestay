@@ -15,6 +15,10 @@ public class OderForm {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String nameGuest;
+
+    private Long phoneNumber;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date timeOder;
 
@@ -27,14 +31,33 @@ public class OderForm {
     private Long total;
 
 
-    public OderForm(Date timeOder,Date formDate, Date toDate,Long total) {
+
+    public OderForm(String nameGuest, Long phoneNumber,Date timeOder,Date formDate, Date toDate,Long total) {
         this.timeOder=timeOder;
         this.formDate = formDate;
         this.toDate = toDate;
         this.total=total;
+        this.nameGuest=nameGuest;
+        this.phoneNumber=phoneNumber;
     }
 
     public OderForm() {
+    }
+
+    public String getNameGuest() {
+        return nameGuest;
+    }
+
+    public void setNameGuest(String nameGuest) {
+        this.nameGuest = nameGuest;
+    }
+
+    public Long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(Long phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getTotal() {
