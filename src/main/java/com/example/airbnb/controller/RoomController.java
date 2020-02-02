@@ -48,6 +48,7 @@ public class RoomController {
     public ResponseEntity<Iterable<Room>> edit(@PathVariable("id") Long id,@RequestBody Room room){
         Optional<Room> room1= roomService.findById(id);
         if(room1.isPresent()){
+            room1.get().setNameRoom(room.getNameRoom());
             room1.get().setDescription(room.getDescription());
             room1.get().setImageUrls(room.getImageUrls());
             room1.get().setPriceRoom(room.getPriceRoom());

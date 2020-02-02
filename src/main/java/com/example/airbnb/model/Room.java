@@ -11,6 +11,7 @@ public class Room {
 
     private String nameHouse;
     private String nameHost;
+    private String nameRoom;
     private String description;
     private Long priceRoom;
 
@@ -20,14 +21,22 @@ public class Room {
     @OneToMany(targetEntity = OderForm.class)
     private List<OderForm> oderForms;
 
-    public Room(String nameHouse, String nameHost,  String description,Long priceRoom, String imageUrls) {
+    public Room(String nameHouse, String nameHost, String nameRoom, String description,Long priceRoom, String imageUrls) {
         this.nameHouse = nameHouse;
         this.nameHost = nameHost;
+        this.nameRoom=nameRoom;
         this.description = description;
         this.priceRoom=priceRoom;
         this.imageUrls = imageUrls;
     }
 
+    public String getNameRoom() {
+        return nameRoom;
+    }
+
+    public void setNameRoom(String nameRoom) {
+        this.nameRoom = nameRoom;
+    }
 
     public Room() {
     }
