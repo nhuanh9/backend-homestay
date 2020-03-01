@@ -17,7 +17,7 @@ public class OrderForm {
     private Long id;
 
     private String nameGuest;
-
+    private String nameHouse;
     private Long phoneNumber;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -37,17 +37,25 @@ public class OrderForm {
     @Enumerated(EnumType.STRING)
     private StatusOder statusOder;
 
-    public OrderForm(String nameGuest, Long phoneNumber, Date timeOrder, Date formDate, Date toDate, Long total, StatusOder statusOder) {
+    public OrderForm(String nameGuest,String nameHouse, Long phoneNumber, Date timeOrder, Date formDate, Date toDate, Long total, StatusOder statusOder) {
         this.timeOrder = timeOrder;
         this.formDate = formDate;
         this.toDate = toDate;
         this.total = total;
         this.nameGuest = nameGuest;
+        this.nameHouse=nameHouse;
         this.phoneNumber = phoneNumber;
         this.statusOder = statusOder;
 
     }
 
+    public String getNameHouse() {
+        return nameHouse;
+    }
+
+    public void setNameHouse(String nameHouse) {
+        this.nameHouse = nameHouse;
+    }
 
     public StatusOder getStatusOder() {
         return statusOder;

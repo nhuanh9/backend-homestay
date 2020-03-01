@@ -64,11 +64,12 @@ public class RoomController {
     private long oneDay = 86400000;
 
     //oder 1 phong id la id cua phong
-    @PostMapping("/room/{id}/order")
-    public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OrderForm orderForm) {
+    @PostMapping("/room/{id}/user/{user_id}/order")
+    public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @PathVariable("user_id") Long user_id, @RequestBody OrderForm orderForm) {
         orderForm.setStatusOder(StatusOder.WaitAccept);
+        Optional<User> user = userService.findById(user_id);
         Optional<Room> room = roomService.findById(id);
-        if (room.isPresent()) {
+        if (room.isPresent() && user.isPresent()) {
             Calendar cal = Calendar.getInstance();
             Date date = cal.getTime();
             long fromDate = orderForm.getFormDate().getTime();
@@ -78,9 +79,12 @@ public class RoomController {
             Long price = room.get().getPriceRoom();
             orderForm.setTotal(days * price);
             orderForm.setTimeOrder(date);
+            orderForm.setNameHouse(room.get().getNameHouse());
             orderService.save(orderForm);
             room.get().getOrderForms().add(orderForm);
             roomService.save(room.get());
+            user.get().getListOrder().add(orderForm);
+            userService.save(user.get());
             return new ResponseEntity(room, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -95,7 +99,7 @@ public class RoomController {
         if (room.isPresent()) {
             room.get().getListComment().add(commentForm);
             roomService.save(room.get());
-            return new ResponseEntity<>(room,HttpStatus.OK);
+            return new ResponseEntity<>(room, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
