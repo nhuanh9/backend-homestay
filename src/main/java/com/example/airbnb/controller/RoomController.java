@@ -2,6 +2,7 @@ package com.example.airbnb.controller;
 
 
 import com.example.airbnb.model.*;
+import com.example.airbnb.model.utility.StatusOder;
 import com.example.airbnb.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 public class RoomController {
     @Autowired
-    private OderService oderService;
+    private OrderService orderService;
     @Autowired
     private RoomService roomService;
     @Autowired
@@ -63,8 +64,9 @@ public class RoomController {
     private long oneDay = 86400000;
 
     //oder 1 phong id la id cua phong
-    @PostMapping("/room/{id}/oder")
+    @PostMapping("/room/{id}/order")
     public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OrderForm orderForm) {
+        orderForm.setStatusOder(StatusOder.WaitAccept);
         Optional<Room> room = roomService.findById(id);
         if (room.isPresent()) {
             Calendar cal = Calendar.getInstance();
@@ -75,8 +77,8 @@ public class RoomController {
             long days = timeOder / oneDay;
             Long price = room.get().getPriceRoom();
             orderForm.setTotal(days * price);
-            orderForm.setTimeOder(date);
-            oderService.save(orderForm);
+            orderForm.setTimeOrder(date);
+            orderService.save(orderForm);
             room.get().getOrderForms().add(orderForm);
             roomService.save(room.get());
             return new ResponseEntity(room, HttpStatus.OK);

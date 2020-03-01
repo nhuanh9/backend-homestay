@@ -2,13 +2,13 @@ package com.example.airbnb.service.impl;
 
 import com.example.airbnb.model.OrderForm;
 import com.example.airbnb.repository.OderRepository;
-import com.example.airbnb.service.OderService;
+import com.example.airbnb.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 @Service
-public class OderServiceImpl implements OderService {
+public class OrderServiceImpl implements OrderService {
     @Autowired
     private OderRepository oderRepository;
 

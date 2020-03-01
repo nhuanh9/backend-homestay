@@ -30,17 +30,25 @@ public class OrderForm {
     private Date toDate;
 
     private Long total;
-
-    public OrderForm(String nameGuest, Long phoneNumber, Date timeOrder, Date formDate, Date toDate, Long total) {
+    @Enumerated(EnumType.STRING)
+    private StatusOder statusOder;
+    public OrderForm(String nameGuest, Long phoneNumber, Date timeOrder, Date formDate, Date toDate, Long total,StatusOder statusOder) {
         this.timeOrder=timeOrder;
         this.formDate = formDate;
         this.toDate = toDate;
         this.total=total;
         this.nameGuest=nameGuest;
         this.phoneNumber=phoneNumber;
-
+        this.statusOder=statusOder;
     }
 
+    public StatusOder getStatusOder() {
+        return statusOder;
+    }
+
+    public void setStatusOder(StatusOder statusOder) {
+        this.statusOder = statusOder;
+    }
 
     public OrderForm() {
     }
