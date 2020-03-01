@@ -1,12 +1,12 @@
 package com.example.airbnb.service;
 
-import com.example.airbnb.model.OderForm;
+import com.example.airbnb.model.OrderForm;
 
 import java.util.Optional;
 
 public interface OderService {
-    Iterable<OderForm>findAll();
-    Optional<OderForm>findById(Long id);
-    void save(OderForm oderForm);
+    Iterable<OrderForm>findAll();
+    Optional<OrderForm>findById(Long id);
+    void save(OrderForm orderForm);
     void delete(Long id);
 }

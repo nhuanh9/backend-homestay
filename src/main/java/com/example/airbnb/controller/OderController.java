@@ -1,10 +1,8 @@
 package com.example.airbnb.controller;
 
 
-import com.example.airbnb.model.House;
-import com.example.airbnb.model.OderForm;
+import com.example.airbnb.model.OrderForm;
 import com.example.airbnb.model.Room;
-import com.example.airbnb.model.utility.StatusOder;
 import com.example.airbnb.service.OderService;
 import com.example.airbnb.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -33,14 +29,14 @@ public class OderController {
     //xem tat ca oder
     @GetMapping
     public ResponseEntity<Iterable<Room>> listOder() {
-        Iterable<OderForm> oderForms = oderService.findAll();
+        Iterable<OrderForm> oderForms = oderService.findAll();
         return new ResponseEntity(oderForms, HttpStatus.OK);
     }
 
     //huy oder truoc 1 ngay
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-        Optional<OderForm> oderForm = oderService.findById(id);
+        Optional<OrderForm> oderForm = oderService.findById(id);
         if (oderForm == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -18,8 +18,8 @@ public class Room {
     @Column(columnDefinition = "TEXT")
     private String imageUrls;
 
-    @OneToMany(targetEntity = OderForm.class)
-    private List<OderForm> oderForms;
+    @OneToMany(targetEntity = OrderForm.class)
+    private List<OrderForm> orderForms;
 
     @OneToMany(targetEntity = CommentForm.class)
     private List<CommentForm> listComment;
@@ -60,12 +60,12 @@ public class Room {
         this.priceRoom = priceRoom;
     }
 
-    public List<OderForm> getOderForms() {
-        return oderForms;
+    public List<OrderForm> getOrderForms() {
+        return orderForms;
     }
 
-    public void setOderForms(List<OderForm> oderForms) {
-        this.oderForms = oderForms;
+    public void setOrderForms(List<OrderForm> orderForms) {
+        this.orderForms = orderForms;
     }
 
     public Long getId() {

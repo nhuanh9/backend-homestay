@@ -2,11 +2,9 @@ package com.example.airbnb.controller;
 
 
 import com.example.airbnb.model.*;
-import com.example.airbnb.model.utility.StatusOder;
 import com.example.airbnb.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,20 +64,20 @@ public class RoomController {
 
     //oder 1 phong id la id cua phong
     @PostMapping("/room/{id}/oder")
-    public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OderForm oderForm) {
+    public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OrderForm orderForm) {
         Optional<Room> room = roomService.findById(id);
         if (room.isPresent()) {
             Calendar cal = Calendar.getInstance();
             Date date = cal.getTime();
-            long fromDate = oderForm.getFormDate().getTime();
-            long toDate = oderForm.getToDate().getTime();
+            long fromDate = orderForm.getFormDate().getTime();
+            long toDate = orderForm.getToDate().getTime();
             long timeOder = toDate - fromDate;
             long days = timeOder / oneDay;
             Long price = room.get().getPriceRoom();
-            oderForm.setTotal(days * price);
-            oderForm.setTimeOder(date);
-            oderService.save(oderForm);
-            room.get().getOderForms().add(oderForm);
+            orderForm.setTotal(days * price);
+            orderForm.setTimeOder(date);
+            oderService.save(orderForm);
+            room.get().getOrderForms().add(orderForm);
             roomService.save(room.get());
             return new ResponseEntity(room, HttpStatus.OK);
         } else {

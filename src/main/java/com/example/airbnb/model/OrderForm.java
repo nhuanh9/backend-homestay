@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Entity
 
-public class OderForm {
+public class OrderForm {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,7 +21,7 @@ public class OderForm {
     private Long phoneNumber;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date timeOder;
+    private Date timeOrder;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date formDate;
@@ -31,8 +31,8 @@ public class OderForm {
 
     private Long total;
 
-    public OderForm(String nameGuest, Long phoneNumber,Date timeOder,Date formDate, Date toDate,Long total) {
-        this.timeOder=timeOder;
+    public OrderForm(String nameGuest, Long phoneNumber, Date timeOrder, Date formDate, Date toDate, Long total) {
+        this.timeOrder=timeOrder;
         this.formDate = formDate;
         this.toDate = toDate;
         this.total=total;
@@ -42,7 +42,7 @@ public class OderForm {
     }
 
 
-    public OderForm() {
+    public OrderForm() {
     }
 
     public String getNameGuest() {
@@ -69,12 +69,12 @@ public class OderForm {
         this.total = total;
     }
 
-    public Date getTimeOder() {
-        return timeOder;
+    public Date getTimeOrder() {
+        return timeOrder;
     }
 
-    public void setTimeOder(Date timeOder) {
-        this.timeOder = timeOder;
+    public void setTimeOrder(Date timeOrder) {
+        this.timeOrder = timeOrder;
     }
 
     public Long getId() {

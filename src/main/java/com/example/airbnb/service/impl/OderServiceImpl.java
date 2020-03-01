@@ -1,7 +1,6 @@
 package com.example.airbnb.service.impl;
 
-import com.example.airbnb.model.House;
-import com.example.airbnb.model.OderForm;
+import com.example.airbnb.model.OrderForm;
 import com.example.airbnb.repository.OderRepository;
 import com.example.airbnb.service.OderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +14,23 @@ public class OderServiceImpl implements OderService {
 
 
     @Override
-    public Iterable<OderForm> findAll() {
+    public Iterable<OrderForm> findAll() {
         return oderRepository.findAll();
     }
 
     @Override
-    public Optional<OderForm> findById(Long id) {
+    public Optional<OrderForm> findById(Long id) {
         return oderRepository.findById(id);
     }
 
     @Override
-    public void save(OderForm oderForm) {
-oderRepository.save(oderForm);
+    public void save(OrderForm orderForm) {
+oderRepository.save(orderForm);
     }
 
     @Override
     public void delete(Long id) {
-        Optional<OderForm> oderForm = oderRepository.findById(id);
+        Optional<OrderForm> oderForm = oderRepository.findById(id);
         if (oderForm.isPresent()) {
             oderRepository.delete(oderForm.get());
         }
