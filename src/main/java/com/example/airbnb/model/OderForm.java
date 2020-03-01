@@ -31,39 +31,16 @@ public class OderForm {
 
     private Long total;
 
-    private StatusOder statusOder;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private  User user;
-
-
-    public OderForm(String nameGuest, Long phoneNumber,Date timeOder,Date formDate, Date toDate,Long total,StatusOder statusOder,User user) {
+    public OderForm(String nameGuest, Long phoneNumber,Date timeOder,Date formDate, Date toDate,Long total) {
         this.timeOder=timeOder;
         this.formDate = formDate;
         this.toDate = toDate;
         this.total=total;
         this.nameGuest=nameGuest;
         this.phoneNumber=phoneNumber;
-        this.statusOder=statusOder;
-        this.user=user;
+
     }
 
-    public StatusOder getStatusOder() {
-        return statusOder;
-    }
-
-    public void setStatusOder(StatusOder statusOder) {
-        this.statusOder = statusOder;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public OderForm() {
     }

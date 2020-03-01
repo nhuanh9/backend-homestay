@@ -67,8 +67,6 @@ public class RoomController {
     //oder 1 phong id la id cua phong
     @PostMapping("/room/{id}/oder")
     public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OderForm oderForm) {
-        oderForm.setUser(userService.getCurrentUser());
-        oderForm.setStatusOder(StatusOder.WaitAccept);
         Optional<Room> room = roomService.findById(id);
         if (room.isPresent()) {
             Calendar cal = Calendar.getInstance();

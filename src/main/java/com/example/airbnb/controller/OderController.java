@@ -58,7 +58,7 @@ public class OderController {
     }
 
     //thay doi trang thai oder
-    @PutMapping("/{id}")
+   /* @PutMapping("/{id}")
     public ResponseEntity<Optional<OderForm>> edit(@PathVariable("id") Long id, @RequestBody OderForm oderForm) {
         Optional<OderForm> oderForm1 = oderService.findById(id);
         if (oderForm1.isPresent()) {
@@ -66,11 +66,11 @@ public class OderController {
                 oderForm1.get().setStatusOder(oderForm.getStatusOder());
                 oderService.save(oderForm1.get());
             }
-           
+
             return new ResponseEntity(oderForm1, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
-
+*/
 }

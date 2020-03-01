@@ -76,7 +76,6 @@ public class HouseController {
     //tao moi 1 nha
     @PostMapping("/house")
     public ResponseEntity<House> createHouse(@RequestBody House house) {
-        house.setUser(userService.getCurrentUser());
         if (house.getCategoryHouse() != null) {
             String nameHouse = house.getCategoryHouse().getName();
             CategoryHouse categoryHouse = categoryHouseService.findByName(nameHouse);
