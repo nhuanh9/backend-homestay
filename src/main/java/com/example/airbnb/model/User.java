@@ -50,7 +50,16 @@ public class User implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
 
+    @OneToMany(targetEntity = House.class)
+    private List<House> houseList;
 
+    public List<House> getHouseList() {
+        return houseList;
+    }
+
+    public void setHouseList(List<House> houseList) {
+        this.houseList = houseList;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

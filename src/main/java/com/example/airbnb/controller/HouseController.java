@@ -74,18 +74,23 @@ public class HouseController {
     }
 
     //tao moi 1 nha
-    @PostMapping("/house")
-    public ResponseEntity<House> createHouse(@RequestBody House house) {
-        house.setUser(userService.getCurrentUser());
-        if (house.getCategoryHouse() != null) {
-            String nameHouse = house.getCategoryHouse().getName();
-            CategoryHouse categoryHouse = categoryHouseService.findByName(nameHouse);
-            house.setCategoryHouse(categoryHouse);
-            
-        }
-        houseService.save(house);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/house/user/{id}")
+    public ResponseEntity<House> createHouse(@PathVariable("id") Long id,@RequestBody House house) {
+       Optional<User>user=userService.findById(id);
+       if (user.isPresent()) {
+           if (house.getCategoryHouse() != null) {
+               String nameHouse = house.getCategoryHouse().getName();
+               CategoryHouse categoryHouse = categoryHouseService.findByName(nameHouse);
+               house.setCategoryHouse(categoryHouse);
 
+           }
+           houseService.save(house);
+           user.get().getHouseList().add(house);
+           userService.save(user.get());
+           return new ResponseEntity<>(HttpStatus.CREATED);
+       }else {
+           return new ResponseEntity(HttpStatus.NOT_FOUND);
+       }
     }
 
     //xoa 1 nha
