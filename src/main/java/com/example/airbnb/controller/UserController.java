@@ -83,10 +83,9 @@ public class UserController {
         roles1.add(role1);
         user.setRoles(roles1);
         }
-
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));
+        user.setImageUrls("https://firebasestorage.googleapis.com/v0/b/spa-stay.appspot.com/o/img%2F1583085901039?alt=media&token=e396af18-3aa6-49ae-8ffc-22a55124b18a");
         userService.save(user);
         VerificationToken token = new VerificationToken(user);
         token.setExpiryDate(10);
@@ -141,6 +140,7 @@ public class UserController {
         user.setPassword(userOptional.get().getPassword());
         user.setRoles(userOptional.get().getRoles());
         user.setConfirmPassword(userOptional.get().getConfirmPassword());
+        user.setImageUrls(userOptional.get().getImageUrls());
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

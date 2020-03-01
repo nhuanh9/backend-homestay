@@ -66,7 +66,6 @@ public class RoomController {
     //oder 1 phong id la id cua phong
     @PostMapping("/room/{id}/order")
     public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OrderForm orderForm) {
-        orderForm.setUser(userService.getCurrentUser());
         orderForm.setStatusOder(StatusOder.WaitAccept);
         Optional<Room> room = roomService.findById(id);
         if (room.isPresent()) {

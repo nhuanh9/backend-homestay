@@ -1,7 +1,6 @@
 package com.example.airbnb.model;
 
 
-
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
-@Entity
+
 @Table(name = "userTable")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -42,6 +41,9 @@ public class User implements Serializable {
 
     private String gender;
 
+    @Column(columnDefinition = "TEXT")
+    private String imageUrls;
+
     private boolean enabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -53,9 +55,46 @@ public class User implements Serializable {
     @OneToMany(targetEntity = House.class)
     private List<House> houseList;
 
+    @OneToMany(targetEntity = OrderForm.class)
+    private List<OrderForm> listOrder;
+
+    public User() {
+    }
+
+    public User(String username, String password, String confirmPassword, String firstName, String lastName, @Email String email, String phoneNumber, String gender, String imageUrls, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+        this.imageUrls = imageUrls;
+
+        this.roles = roles;
+    }
+
+    public String getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(String imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
+    public List<OrderForm> getListOrder() {
+        return listOrder;
+    }
+
+    public void setListOrder(List<OrderForm> listOrder) {
+        this.listOrder = listOrder;
+    }
+
     public List<House> getHouseList() {
         return houseList;
     }
+
 
     public void setHouseList(List<House> houseList) {
         this.houseList = houseList;

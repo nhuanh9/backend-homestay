@@ -9,13 +9,23 @@ public class CommentForm {
 
     private String comment;
 
-   private String username;
+    private String username;
 
+    @Column(columnDefinition = "TEXT")
+    private String imageUrls;
 
-    public CommentForm(String comment, String username) {
+    public CommentForm(String comment, String username,String imageUrls) {
         this.comment = comment;
         this.username = username;
+        this.imageUrls = imageUrls;
+    }
 
+    public String getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(String imageUrls) {
+        this.imageUrls = imageUrls;
     }
 
     public String getUsername() {
