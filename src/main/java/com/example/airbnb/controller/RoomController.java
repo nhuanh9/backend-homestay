@@ -66,6 +66,7 @@ public class RoomController {
     //oder 1 phong id la id cua phong
     @PostMapping("/room/{id}/order")
     public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OrderForm orderForm) {
+        orderForm.setUser(userService.getCurrentUser());
         orderForm.setStatusOder(StatusOder.WaitAccept);
         Optional<Room> room = roomService.findById(id);
         if (room.isPresent()) {
@@ -90,7 +91,6 @@ public class RoomController {
     //danh gia 1 phong
     @PostMapping("room/{id}/comments")
     public ResponseEntity<Optional<Room>> Comments(@PathVariable("id") Long id, @RequestBody CommentForm commentForm) {
-        commentForm.setUser(userService.getCurrentUser());
         commentService.save(commentForm);
         Optional<Room> room = roomService.findById(id);
         if (room.isPresent()) {

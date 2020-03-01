@@ -29,17 +29,35 @@ public class OrderForm {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date toDate;
 
+
     private Long total;
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
     @Enumerated(EnumType.STRING)
     private StatusOder statusOder;
-    public OrderForm(String nameGuest, Long phoneNumber, Date timeOrder, Date formDate, Date toDate, Long total,StatusOder statusOder) {
-        this.timeOrder=timeOrder;
+
+    public OrderForm(String nameGuest, Long phoneNumber, Date timeOrder, Date formDate, Date toDate, Long total, StatusOder statusOder,User user) {
+        this.timeOrder = timeOrder;
         this.formDate = formDate;
         this.toDate = toDate;
-        this.total=total;
-        this.nameGuest=nameGuest;
-        this.phoneNumber=phoneNumber;
-        this.statusOder=statusOder;
+        this.total = total;
+        this.nameGuest = nameGuest;
+        this.phoneNumber = phoneNumber;
+        this.statusOder = statusOder;
+        this.user=user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public StatusOder getStatusOder() {
