@@ -32,6 +32,10 @@ public class House {
     @OneToMany(targetEntity = Room.class)
     private List<Room> rooms;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private  User user;
+
     public House() {
     }
 
@@ -43,7 +47,7 @@ public class House {
         this.rooms = rooms;
     }
 
-    public House(String hostName, String nameHouse, CategoryHouse categoryHouse, Long amountBathRoom, Long amountBedRoom, String address, String description,  String imageUrls) {
+    public House(String hostName, String nameHouse, CategoryHouse categoryHouse, Long amountBathRoom, Long amountBedRoom, String address, String description,  String imageUrls,User user) {
         this.hostName=hostName;
         this.nameHouse = nameHouse;
         this.categoryHouse = categoryHouse;
@@ -52,6 +56,15 @@ public class House {
         this.address = address;
         this.description = description;
         this.imageUrls = imageUrls;
+        this.user=user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getHostName() {

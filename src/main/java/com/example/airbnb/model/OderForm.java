@@ -30,15 +30,27 @@ public class OderForm {
 
     private Long total;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private  User user;
 
 
-    public OderForm(String nameGuest, Long phoneNumber,Date timeOder,Date formDate, Date toDate,Long total) {
+    public OderForm(String nameGuest, Long phoneNumber,Date timeOder,Date formDate, Date toDate,Long total,User user) {
         this.timeOder=timeOder;
         this.formDate = formDate;
         this.toDate = toDate;
         this.total=total;
         this.nameGuest=nameGuest;
         this.phoneNumber=phoneNumber;
+        this.user=user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public OderForm() {

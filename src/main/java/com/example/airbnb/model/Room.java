@@ -21,6 +21,9 @@ public class Room {
     @OneToMany(targetEntity = OderForm.class)
     private List<OderForm> oderForms;
 
+    @OneToMany(targetEntity = CommentForm.class)
+    private List<CommentForm> listComment;
+
     public Room(String nameHouse, String nameHost, String nameRoom, String description,Long priceRoom, String imageUrls) {
         this.nameHouse = nameHouse;
         this.nameHost = nameHost;
@@ -28,6 +31,14 @@ public class Room {
         this.description = description;
         this.priceRoom=priceRoom;
         this.imageUrls = imageUrls;
+    }
+
+    public List<CommentForm> getListComment() {
+        return listComment;
+    }
+
+    public void setListComment(List<CommentForm> listComment) {
+        this.listComment = listComment;
     }
 
     public String getNameRoom() {
