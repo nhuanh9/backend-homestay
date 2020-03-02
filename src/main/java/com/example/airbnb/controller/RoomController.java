@@ -2,6 +2,7 @@ package com.example.airbnb.controller;
 
 
 import com.example.airbnb.model.*;
+import com.example.airbnb.model.utility.StatusOder;
 import com.example.airbnb.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,6 +68,7 @@ public class RoomController {
     @PostMapping("/room/{id}/oder")
     public ResponseEntity<Iterable<Room>> createOderRoom(@PathVariable("id") Long id, @RequestBody OderForm oderForm) {
         oderForm.setUser(userService.getCurrentUser());
+        oderForm.setStatusOder(StatusOder.WaitAccept);
         Optional<Room> room = roomService.findById(id);
         if (room.isPresent()) {
             Calendar cal = Calendar.getInstance();

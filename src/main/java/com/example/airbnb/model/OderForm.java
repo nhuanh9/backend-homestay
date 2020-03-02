@@ -1,5 +1,6 @@
 package com.example.airbnb.model;
 
+import com.example.airbnb.model.utility.StatusOder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -30,19 +31,30 @@ public class OderForm {
 
     private Long total;
 
+    private StatusOder statusOder;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private  User user;
 
 
-    public OderForm(String nameGuest, Long phoneNumber,Date timeOder,Date formDate, Date toDate,Long total,User user) {
+    public OderForm(String nameGuest, Long phoneNumber,Date timeOder,Date formDate, Date toDate,Long total,StatusOder statusOder,User user) {
         this.timeOder=timeOder;
         this.formDate = formDate;
         this.toDate = toDate;
         this.total=total;
         this.nameGuest=nameGuest;
         this.phoneNumber=phoneNumber;
+        this.statusOder=statusOder;
         this.user=user;
+    }
+
+    public StatusOder getStatusOder() {
+        return statusOder;
+    }
+
+    public void setStatusOder(StatusOder statusOder) {
+        this.statusOder = statusOder;
     }
 
     public User getUser() {
