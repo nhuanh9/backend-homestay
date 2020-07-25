@@ -12,13 +12,15 @@ import org.springframework.context.annotation.Bean;
 public class AirbnbApplication {
 
     @Bean
-    public CategoryRoomService categoryRoomService(){
+    public CategoryRoomService categoryRoomService() {
         return new CategoryRoomImpl();
     }
+
     @Bean
-    public CategoryHouseService categoryHouseService(){
+    public CategoryHouseService categoryHouseService() {
         return new CategoryHouseImpl();
     }
+
     public static void main(String[] args) {
         SpringApplication.run(AirbnbApplication.class, args);
     }
