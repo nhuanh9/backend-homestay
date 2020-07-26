@@ -28,7 +28,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public void save(House house) {
-    houseRepository.save(house);
+        houseRepository.save(house);
     }
 
     @Override
@@ -42,6 +42,11 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public Iterable<House> findAllByAddress(String name) {
         return houseRepository.findAllByAddress(name);
+    }
+
+    @Override
+    public Iterable<House> findAllByCategoryHouseName(String name) {
+        return houseRepository.findAllByCategoryHouseName(name);
     }
 
 

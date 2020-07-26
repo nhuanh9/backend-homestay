@@ -121,10 +121,17 @@ public class HouseController {
         return new ResponseEntity(homeStay, HttpStatus.OK);
     }
 
-    //tim kiem theo adress
+    //tim kiem theo address
     @PostMapping("/house/search")
     public ResponseEntity<Iterable<House>> listHouseInAdress(@RequestParam String address) {
         Iterable<House> houses = houseService.findAllByAddress(address);
+        return new ResponseEntity<>(houses, HttpStatus.OK);
+    }
+
+    //tim kiem theo CategoryHouse
+    @PostMapping("/house/search-by-category")
+    public ResponseEntity<Iterable<House>> searchHousesByCategoryHouseName(@RequestBody String name) {
+        Iterable<House> houses = houseService.findAllByCategoryHouseName(name);
         return new ResponseEntity<>(houses, HttpStatus.OK);
     }
 
