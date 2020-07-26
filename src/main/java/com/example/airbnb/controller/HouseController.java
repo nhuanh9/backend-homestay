@@ -71,7 +71,7 @@ public class HouseController {
             houseService.save(homeStay1.get());
             for (Room room : listRoomOfHouse
             ) {
-                room.setNameHouse(house.getNameHouse());
+                room.setNameHouse(homeStay1.get().getNameHouse());
                 roomService.save(room);
             }
             return new ResponseEntity(homeStay1, HttpStatus.OK);
