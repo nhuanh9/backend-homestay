@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HouseImagesRepository extends JpaRepository<HouseImages,Long> {
-    Iterable<HouseImages>findAllByHouseId(Long id);
+    Iterable<HouseImages> findAllByHouseId(Long id);
 }

@@ -11,5 +11,5 @@ public interface RoomService {
     Optional<Room> findById(Long id);
     void delete(Long id);
     void save(Room room);
-
+    Iterable<Room> findAllByNameHouse(String nameHouse);
 }

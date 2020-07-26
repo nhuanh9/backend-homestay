@@ -35,6 +35,11 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void save(Room room) {
-roomRepository.save(room);
+        roomRepository.save(room);
+    }
+
+    @Override
+    public Iterable<Room> findAllByNameHouse(String nameHouse) {
+        return roomRepository.findAllByNameHouse(nameHouse);
     }
 }

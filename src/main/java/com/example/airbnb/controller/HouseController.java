@@ -42,11 +42,13 @@ public class HouseController {
     @PutMapping("/house/{id}")
     public ResponseEntity<House> edit(@PathVariable("id") Long id, @RequestBody House house) {
         Optional<House> homeStay1 = houseService.findById(id);
+        Iterable<Room> listRoomOfHouse;
         if (homeStay1.isPresent()) {
+            listRoomOfHouse = roomService.findAllByNameHouse(homeStay1.get().getNameHouse());
             if (!house.getNameHouse().equals("")) {
                 homeStay1.get().setNameHouse(house.getNameHouse());
             }
-            if (house.getCategoryHouse().getId()!=null) {
+            if (house.getCategoryHouse().getId() != null) {
                 String nameHouse = house.getCategoryHouse().getName();
                 CategoryHouse categoryHouse = categoryHouseService.findByName(nameHouse);
                 homeStay1.get().setCategoryHouse(categoryHouse);
@@ -54,10 +56,10 @@ public class HouseController {
             if (!house.getAddress().equals("")) {
                 homeStay1.get().setAddress(house.getAddress());
             }
-            if (house.getAmountBathRoom()!=null) {
+            if (house.getAmountBathRoom() != null) {
                 homeStay1.get().setAmountBathRoom(house.getAmountBathRoom());
             }
-            if (house.getAmountBedRoom()!=null) {
+            if (house.getAmountBedRoom() != null) {
                 homeStay1.get().setAmountBedRoom(house.getAmountBedRoom());
             }
             if (!house.getDescription().equals("")) {
@@ -67,6 +69,11 @@ public class HouseController {
                 homeStay1.get().setImageUrls(house.getImageUrls());
             }
             houseService.save(homeStay1.get());
+            for (Room room : listRoomOfHouse
+            ) {
+                room.setNameHouse(house.getNameHouse());
+                roomService.save(room);
+            }
             return new ResponseEntity(homeStay1, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -75,22 +82,22 @@ public class HouseController {
 
     //tao moi 1 nha
     @PostMapping("/house/user/{id}")
-    public ResponseEntity<House> createHouse(@PathVariable("id") Long id,@RequestBody House house) {
-       Optional<User>user=userService.findById(id);
-       if (user.isPresent()) {
-           if (house.getCategoryHouse() != null) {
-               String nameHouse = house.getCategoryHouse().getName();
-               CategoryHouse categoryHouse = categoryHouseService.findByName(nameHouse);
-               house.setCategoryHouse(categoryHouse);
+    public ResponseEntity<House> createHouse(@PathVariable("id") Long id, @RequestBody House house) {
+        Optional<User> user = userService.findById(id);
+        if (user.isPresent()) {
+            if (house.getCategoryHouse() != null) {
+                String nameHouse = house.getCategoryHouse().getName();
+                CategoryHouse categoryHouse = categoryHouseService.findByName(nameHouse);
+                house.setCategoryHouse(categoryHouse);
 
-           }
-           houseService.save(house);
-           user.get().getHouseList().add(house);
-           userService.save(user.get());
-           return new ResponseEntity<>(HttpStatus.CREATED);
-       }else {
-           return new ResponseEntity(HttpStatus.NOT_FOUND);
-       }
+            }
+            houseService.save(house);
+            user.get().getHouseList().add(house);
+            userService.save(user.get());
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     //xoa 1 nha
