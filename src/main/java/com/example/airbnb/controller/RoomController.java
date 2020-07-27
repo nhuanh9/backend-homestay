@@ -105,5 +105,9 @@ public class RoomController {
         }
     }
 
-
+    @PostMapping("room/search-by-house-name")
+    public ResponseEntity<Iterable<Room>> searchByHouseName(@RequestBody String nameHouse) {
+        Iterable<Room> result = roomService.findAllByNameHouse(nameHouse);
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
 }
