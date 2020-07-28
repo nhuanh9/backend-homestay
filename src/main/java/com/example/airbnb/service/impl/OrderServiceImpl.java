@@ -35,4 +35,14 @@ oderRepository.save(orderForm);
             oderRepository.delete(oderForm.get());
         }
     }
+
+    @Override
+    public Iterable<OrderForm> findAllByNameHouse(String nameHouse) {
+        return oderRepository.findAllByNameHouse(nameHouse);
+    }
+
+    @Override
+    public Iterable<OrderForm> findAllByNameGuest(String nameGuest) {
+        return oderRepository.findAllByNameGuest(nameGuest);
+    }
 }
