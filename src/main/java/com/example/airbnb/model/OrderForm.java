@@ -5,7 +5,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -31,13 +30,12 @@ public class OrderForm {
 
 
     private Long total;
-
-
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
     private StatusOder statusOder;
 
-    public OrderForm(String nameGuest,String nameHouse, Long phoneNumber, Date timeOrder, Date formDate, Date toDate, Long total, StatusOder statusOder) {
+    public OrderForm(Long userId, String nameGuest, String nameHouse, Long phoneNumber, Date timeOrder, Date formDate, Date toDate, Long total, StatusOder statusOder) {
         this.timeOrder = timeOrder;
         this.formDate = formDate;
         this.toDate = toDate;
@@ -46,7 +44,15 @@ public class OrderForm {
         this.nameHouse=nameHouse;
         this.phoneNumber = phoneNumber;
         this.statusOder = statusOder;
+        this.userId = userId;
+    }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long user_id) {
+        this.userId = user_id;
     }
 
     public String getNameHouse() {

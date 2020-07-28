@@ -45,6 +45,12 @@ public class OrderController {
         return new ResponseEntity(oderForms, HttpStatus.OK);
     }
 
+    @PostMapping("/search-by-user-id")
+    public ResponseEntity<Iterable<Room>> searchByUserId(@RequestBody Long userId) {
+        Iterable<OrderForm> oderForms = orderService.findAllByUserId(userId);
+        return new ResponseEntity(oderForms, HttpStatus.OK);
+    }
+
     //huy oder truoc 1 ngay
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {

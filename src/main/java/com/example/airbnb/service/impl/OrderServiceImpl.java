@@ -42,6 +42,11 @@ oderRepository.save(orderForm);
     }
 
     @Override
+    public Iterable<OrderForm> findAllByUserId(Long userId) {
+        return oderRepository.findAllByUserId(userId);
+    }
+
+    @Override
     public Iterable<OrderForm> findAllByNameGuest(String nameGuest) {
         return oderRepository.findAllByNameGuest(nameGuest);
     }

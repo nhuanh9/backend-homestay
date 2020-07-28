@@ -15,5 +15,7 @@ public interface OrderService {
 
     Iterable<OrderForm> findAllByNameHouse(String nameHouse);
 
+    Iterable<OrderForm> findAllByUserId(Long userId);
+
     Iterable<OrderForm> findAllByNameGuest(String nameGuest);
 }

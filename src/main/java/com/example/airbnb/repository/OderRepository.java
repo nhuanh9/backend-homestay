@@ -7,4 +7,8 @@ public interface OderRepository extends JpaRepository<OrderForm, Long> {
     Iterable<OrderForm> findAllByNameHouse(String nameHouse);
 
     Iterable<OrderForm> findAllByNameGuest(String nameGuest);
+
+    Iterable<OrderForm> findAllByUserId(Long userId);
+
+
 }
