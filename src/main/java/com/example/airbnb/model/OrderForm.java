@@ -17,6 +17,7 @@ public class OrderForm {
 
     private String nameGuest;
     private String nameHouse;
+    private String roomName;
     private Long phoneNumber;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -41,10 +42,18 @@ public class OrderForm {
         this.toDate = toDate;
         this.total = total;
         this.nameGuest = nameGuest;
-        this.nameHouse=nameHouse;
+        this.nameHouse = nameHouse;
         this.phoneNumber = phoneNumber;
         this.statusOder = statusOder;
         this.userId = userId;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     public Long getUserId() {
