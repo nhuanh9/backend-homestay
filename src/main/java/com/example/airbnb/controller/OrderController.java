@@ -33,13 +33,13 @@ public class OrderController {
         return new ResponseEntity(oderForms, HttpStatus.OK);
     }
 
-    @GetMapping("/search-by-house-name")
+    @PostMapping("/search-by-house-name")
     public ResponseEntity<Iterable<Room>> searchByHouseName(@RequestBody String houseName) {
         Iterable<OrderForm> oderForms = orderService.findAllByNameHouse(houseName);
         return new ResponseEntity(oderForms, HttpStatus.OK);
     }
 
-    @GetMapping("/search-by-guest-name")
+    @PostMapping("/search-by-guest-name")
     public ResponseEntity<Iterable<Room>> searchByGuestName(@RequestBody String nameGuest) {
         Iterable<OrderForm> oderForms = orderService.findAllByNameGuest(nameGuest);
         return new ResponseEntity(oderForms, HttpStatus.OK);
