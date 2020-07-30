@@ -14,25 +14,18 @@ public class OrderForm {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String nameGuest;
     private String nameHouse;
     private String roomName;
     private Long phoneNumber;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date timeOrder;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date formDate;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date toDate;
-
-
     private Long total;
     private Long userId;
-
     @Enumerated(EnumType.STRING)
     private StatusOder statusOder;
 
