@@ -23,21 +23,21 @@ public class HouseImagesController {
     private HouseService houseService;
 
     @GetMapping
-    public ResponseEntity<Iterable<HouseImages>> listHouseImages() {
+    public ResponseEntity<Iterable<HouseImages>> getAll() {
         Iterable<HouseImages> houseImages = houseImagesService.findAll();
         return new ResponseEntity<>(houseImages, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<HouseImages> createHouseImages(@RequestBody HouseImages houseImages) {
+    public ResponseEntity<HouseImages> create(@RequestBody HouseImages houseImages) {
         houseImagesService.save(houseImages);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteHouseImages(@PathVariable("id") Long id) {
-        Optional<HouseImages> houseImages1 = houseImagesService.findById(id);
-        if (houseImages1 == null) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        Optional<HouseImages> houseImages = houseImagesService.findById(id);
+        if (houseImages == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         houseService.delete(id);
@@ -45,7 +45,7 @@ public class HouseImagesController {
     }
 
     @GetMapping("/search-house/{house-id}")
-    public ResponseEntity<Iterable<HouseImages>> findImagesByHouseName(@PathVariable("house-id") Long houseId) {
+    public ResponseEntity<Iterable<HouseImages>> getAllByHouseName(@PathVariable("house-id") Long houseId) {
         Iterable<HouseImages> houseImages = houseImagesService.findByHouseId(houseId);
         return new ResponseEntity<>(houseImages, HttpStatus.OK);
 

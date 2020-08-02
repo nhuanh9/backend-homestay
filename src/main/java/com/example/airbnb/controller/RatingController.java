@@ -25,13 +25,13 @@ public class RatingController {
     private HouseService houseService;
 
     @PostMapping
-    public ResponseEntity<Rating> createRating(@RequestBody Rating rating) {
+    public ResponseEntity<Rating> create(@RequestBody Rating rating) {
         ratingService.save(rating);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/find-rates-of-house/{house-id}")
-    public ResponseEntity<Iterable<Rating>> findImagesByHouseName(@PathVariable("house-id") Long houseId) {
+    public ResponseEntity<Iterable<Rating>> getAllByHouseId(@PathVariable("house-id") Long houseId) {
         Iterable<Rating> ratings = ratingService.findAllByHouseId(houseId);
         return new ResponseEntity<>(ratings, HttpStatus.OK);
 

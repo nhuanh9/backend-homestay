@@ -28,25 +28,25 @@ public class OrderController {
 
     //xem tat ca oder
     @GetMapping
-    public ResponseEntity<Iterable<Room>> listOder() {
+    public ResponseEntity<Iterable<Room>> getAll() {
         Iterable<OrderForm> oderForms = orderService.findAll();
         return new ResponseEntity(oderForms, HttpStatus.OK);
     }
 
     @PostMapping("/search-by-house-name")
-    public ResponseEntity<Iterable<Room>> searchByHouseName(@RequestBody String houseName) {
+    public ResponseEntity<Iterable<Room>> getAllByHouseName(@RequestBody String houseName) {
         Iterable<OrderForm> oderForms = orderService.findAllByNameHouse(houseName);
         return new ResponseEntity(oderForms, HttpStatus.OK);
     }
 
     @PostMapping("/search-by-guest-name")
-    public ResponseEntity<Iterable<Room>> searchByGuestName(@RequestBody String nameGuest) {
+    public ResponseEntity<Iterable<Room>> getAllByGuestName(@RequestBody String nameGuest) {
         Iterable<OrderForm> oderForms = orderService.findAllByNameGuest(nameGuest);
         return new ResponseEntity(oderForms, HttpStatus.OK);
     }
 
     @PostMapping("/search-by-user-id")
-    public ResponseEntity<Iterable<Room>> searchByUserId(@RequestBody Long userId) {
+    public ResponseEntity<Iterable<Room>> getAllByUserId(@RequestBody Long userId) {
         Iterable<OrderForm> oderForms = orderService.findAllByUserId(userId);
         return new ResponseEntity(oderForms, HttpStatus.OK);
     }
@@ -66,9 +66,9 @@ public class OrderController {
         if (timeDemo > oneDay || timeDemo < 0) {
             orderService.delete(id);
         } else {
-            return new ResponseEntity<>("khong duoc xoa", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Không thể xoá", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity("thanh cong", HttpStatus.OK);
+        return new ResponseEntity("Thành Công", HttpStatus.OK);
     }
 
 

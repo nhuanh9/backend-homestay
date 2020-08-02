@@ -53,13 +53,13 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/users")
-    public ResponseEntity<Iterable<User>> showAllUser() {
+    public ResponseEntity<Iterable<User>> getAll() {
         Iterable<User> users = userService.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+    public ResponseEntity<User> create(@Valid @RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -72,16 +72,16 @@ public class UserController {
         if (!userService.isCorrectConfirmPassword(user)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if (user.getRoles()!=null){
-        Role role = roleService.findByName("ROLE_ADMIN");
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);}
-        else {
-        Role role1 = roleService.findByName("ROLE_USER");
-        Set<Role> roles1 = new HashSet<>();
-        roles1.add(role1);
-        user.setRoles(roles1);
+        if (user.getRoles() != null) {
+            Role role = roleService.findByName("ROLE_ADMIN");
+            Set<Role> roles = new HashSet<>();
+            roles.add(role);
+            user.setRoles(roles);
+        } else {
+            Role role1 = roleService.findByName("ROLE_USER");
+            Set<Role> roles1 = new HashSet<>();
+            roles1.add(role1);
+            user.setRoles(roles1);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));

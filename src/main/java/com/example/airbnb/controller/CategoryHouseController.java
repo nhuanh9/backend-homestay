@@ -20,24 +20,24 @@ public class CategoryHouseController {
     private CategoryHouseService categoryHouseService;
 
     @GetMapping
-    public ResponseEntity<Iterable<CategoryHouse>> listCategoryHome() {
-        Iterable<CategoryHouse> categoryHomes = categoryHouseService.findAll();
-        return new ResponseEntity<>(categoryHomes, HttpStatus.OK);
+    public ResponseEntity<Iterable<CategoryHouse>> getAll() {
+        Iterable<CategoryHouse> categoryHouses = categoryHouseService.findAll();
+        return new ResponseEntity<>(categoryHouses, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<CategoryHouse> createCategoryHome(@RequestBody CategoryHouse categoryHouse) {
+    public ResponseEntity<CategoryHouse> create(@RequestBody CategoryHouse categoryHouse) {
         categoryHouseService.save(categoryHouse);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryHouse> editCategoryRoom(@PathVariable("id") Long id, @RequestBody CategoryHouse categoryHouse) {
-        Optional<CategoryHouse> categoryHome1 = categoryHouseService.findById(id);
-        if (categoryHome1.isPresent()) {
-            categoryHome1.get().setName(categoryHouse.getName());
+    public ResponseEntity<CategoryHouse> edit(@PathVariable("id") Long id, @RequestBody CategoryHouse newCategoryHouse) {
+        Optional<CategoryHouse> OldCategoryHouse = categoryHouseService.findById(id);
+        if (OldCategoryHouse.isPresent()) {
+            OldCategoryHouse.get().setName(newCategoryHouse.getName());
 
-            categoryHouseService.save(categoryHome1.get());
+            categoryHouseService.save(OldCategoryHouse.get());
             return new ResponseEntity("thanh cong", HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);

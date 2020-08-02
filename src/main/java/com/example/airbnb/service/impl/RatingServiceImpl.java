@@ -1,7 +1,6 @@
 package com.example.airbnb.service.impl;
 
 import com.example.airbnb.model.Rating;
-import com.example.airbnb.repository.OderRepository;
 import com.example.airbnb.repository.RatingRepository;
 import com.example.airbnb.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -23,24 +23,26 @@ public class CategoryRoomController {
 
     @GetMapping
 
-    public ResponseEntity<Iterable<CategoryRoom>>listCategoryRoom(){
-        Iterable<CategoryRoom>categoryRooms=categoryRoomService.findAll();
+    public ResponseEntity<Iterable<CategoryRoom>> getAll() {
+        Iterable<CategoryRoom> categoryRooms = categoryRoomService.findAll();
         return new ResponseEntity<>(categoryRooms, HttpStatus.OK);
     }
+
     @PostMapping
-    public ResponseEntity<CategoryRoom>createCategoryRoom(@RequestBody CategoryRoom categoryRoom){
+    public ResponseEntity<CategoryRoom> create(@RequestBody CategoryRoom categoryRoom) {
         categoryRoomService.save(categoryRoom);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<CategoryRoom>editCategoryRoom(@PathVariable("id") Long id, @RequestBody CategoryRoom categoryRoom){
-        Optional<CategoryRoom>categoryRoom1=categoryRoomService.findById(id);
-        if(categoryRoom1.isPresent()){
-            categoryRoom1.get().setName(categoryRoom.getName());
 
-            categoryRoomService.save(categoryRoom1.get());
-            return new ResponseEntity("thanh cong",HttpStatus.OK);
-        }else {
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryRoom> edit(@PathVariable("id") Long id, @RequestBody CategoryRoom newCategoryRoom) {
+        Optional<CategoryRoom> oldCategoryRoom = categoryRoomService.findById(id);
+        if (oldCategoryRoom.isPresent()) {
+            oldCategoryRoom.get().setName(newCategoryRoom.getName());
+
+            categoryRoomService.save(oldCategoryRoom.get());
+            return new ResponseEntity("thanh cong", HttpStatus.OK);
+        } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
