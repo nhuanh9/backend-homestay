@@ -19,6 +19,7 @@ import java.util.Set;
 @CrossOrigin("*")
 @RequestMapping()
 public class HouseController {
+
     @Autowired
     private HouseService houseService;
     @Autowired
@@ -31,7 +32,7 @@ public class HouseController {
     @Autowired
     private RoomService roomService;
 
-    //danh sach tat ca cac nha
+    //danh sach tat ca cac nha, //
     @GetMapping("/house")
     public ResponseEntity<Iterable<House>> getAll() {
         Iterable<House> homeStays = houseService.findAll();
